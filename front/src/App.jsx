@@ -166,6 +166,10 @@ const handleEdit=(item)=>{
 
 }
 
+// Nombre total des personnes recensées
+const totalPersonnes = items.reduce((total, item) => total + item.nombrePersonnes, 0);
+
+
 return(
 <div className='container my-3'>
   <h1 className='mb-3 p-2 fw-bold'>Recensement des Foyers</h1>
@@ -212,9 +216,11 @@ return(
    <hr />
 <div>
 <h2 className='mb-3 p-2 fw-bold'>Liste des foyers</h2>
-<span>
+<span className='fw-bold'>
    {items.length} formulaires
 </span>
+<br />
+<span className='fw-bold'>Nombre des personnes recensées : {totalPersonnes}</span>
 
 
 </div>

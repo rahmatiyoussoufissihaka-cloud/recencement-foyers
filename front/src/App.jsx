@@ -6,8 +6,6 @@ import { Checkbox } from '../Components/Forms/Checkbox'
 function App() {
 
  const [editingId, setEditingId]=useState(null)
-  const [isChecked, setIsChecked] = useState(false)
-  
 const [items, setItems] =useState([
   {
   id:1,
@@ -40,7 +38,6 @@ const [items, setItems] =useState([
 ])
 
 
-
 const [formData, setFormData] = useState({
   nomResponsable: '',
   adresse: '',
@@ -56,8 +53,6 @@ const handleChange = (target) => {
     [name]: value,
   }));
 }
-
-
 
 
 // Ajouter une formulaire
@@ -224,7 +219,7 @@ return(
 
 
 </div>
-  <table className="table table-striped mt-3">
+  <table className="table table-striped table-bordered border-secondary table-info mt-3">
     <thead>
       <tr>
         <th>Cocher pour selectionner</th>

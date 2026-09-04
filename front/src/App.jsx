@@ -77,7 +77,6 @@ const handleChange = (target) => {
   telephone: formData.telephone
 
  }
- console.log(newItem)
  setItems(prev=>[...prev, newItem]);
  setFormData({
   nomResponsable: '',
@@ -86,9 +85,7 @@ const handleChange = (target) => {
   nombrePersonnes: '',
   telephone: ''
  })
-
-
-   }
+ }
 
 
 //Sauvegarder les modifications du formulaire

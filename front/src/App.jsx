@@ -6,6 +6,7 @@ import { Checkbox } from '../Components/Forms/Checkbox'
 function App() {
 
  const [editingId, setEditingId]=useState(null)
+ const [isChecked, setIsChecked] = useState(false);
 const [items, setItems] =useState([
   {
   id:1,
@@ -206,15 +207,19 @@ return(
   </form>
 
    <hr />
-<div>
+   <label className="form-check-label fw-bold">
+      Afficher la liste des foyers
+    </label>
+   <Checkbox checked={isChecked} onCheck={setIsChecked} />
+   {isChecked && <div>
+    
+    <div>
 <h2 className='mb-3 p-2 fw-bold'>Liste des foyers</h2>
 <span className='fw-bold'>
    {items.length} formulaires
 </span>
 <br />
 <span className='fw-bold'>Nombre des personnes recensées : {totalPersonnes}</span>
-
-
 </div>
   <table className="table table-striped table-bordered border-secondary table-info mt-3">
     <thead>
@@ -254,6 +259,9 @@ return(
     </tbody>
   </table>
 <Button  className="btn btn-danger" onClick={ handleDelete}>Supprimer</Button>
+    
+    </div>}
+
 </div>
 
 )

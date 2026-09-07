@@ -124,6 +124,7 @@ const handleChange = (target) => {
       alert("Remplissez ces champs");
       return;
     }
+
   // Vérifier  si le numero de téléphone est valide
     const phoneRegex = /^\+?\d{1,3}[- ]?\d{1,4}[- ]?\d{1,4}[- ]?\d{1,9}$/;
     if (formData.telephone && !phoneRegex.test(formData.telephone)) {
@@ -170,11 +171,6 @@ const handleChange = (target) => {
   
 //Supprimer un élément de la liste
 const handleDelete=(id)=>{
-  const selectedItems = items.filter((item)=>item.checked)    
-  if(selectedItems.length ===0){
-    alert("veillez sélectionner au moins un élément à supprimer.")
-    return;
-  }  
    const confirmation =window.confirm('Etes-vous sûr de vouloir supprimer ceci?')
         if(!confirmation ){
           return;
@@ -182,6 +178,9 @@ const handleDelete=(id)=>{
         }
 setItems(items.filter((item)=>!item.checked))
     }
+
+// Verifier si un élément est coché
+const isAnyChecked = items.some((item) => item.checked);
 
  // Cocher ou décocher un élément de la liste   
 const handleCheck=(id)=>{
@@ -309,7 +308,12 @@ return(
       ))}
     </tbody>
   </table>
-<Button  className="btn btn-danger" onClick={ handleDelete}>Supprimer</Button>
+<Button  
+className="btn btn-danger" 
+onClick={ handleDelete}
+ disabled={!isAnyChecked}>
+      Supprimer
+    </Button>
     
     </div>}
 

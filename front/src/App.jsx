@@ -235,18 +235,28 @@ return(
      name="nomResponsable" 
      value={formData.nomResponsable} 
      onChange={(value) => handleChange({ name: "nomResponsable", value })} />
+     <hr className="border-1 border-dark" />
     <Input 
      type="text"
     label="Adresse" 
     name="adresse"
      value={formData.adresse} 
      onChange={(value) => handleChange({ name: "adresse", value })} />
+     <hr className=" border-1 border-dark" />
+    <Input 
+     type="text"
+    label="Adresse" 
+    name="adresse"
+     value={formData.adresse} 
+     onChange={(value) => handleChange({ name: "adresse", value })} />
+     <hr className="border-1 border-dark" />
     <Input 
     type="text"
     label="Commune" 
     name="commune"
      value={formData.commune}
       onChange={(value) => handleChange({ name: "commune", value })} />
+      <hr className="border-1 border-dark" />
     <Input
      label="Nombre de personnes"
      type="number"
@@ -256,6 +266,7 @@ return(
       name="nombrePersonnes" 
       value={formData.nombrePersonnes}
        onChange={(value) => handleChange({ name: "nombrePersonnes", value })} />
+       <hr className="border-1 border-dark" />
     <Input
      label="Numero de Téléphone" 
      type="tel" 
@@ -263,6 +274,7 @@ return(
      value={formData.telephone}
       placeholder="Ex: +269 321 45 67"
       onChange={(value) => handleChange({ name: "telephone", value })} />
+      <hr className="border-1 border-dark" />
 
       {editingId === null? (
         <Button onClick={handleAdd} disabled={isAddDisabled}>

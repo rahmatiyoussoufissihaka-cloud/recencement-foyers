@@ -111,7 +111,15 @@ const handleChange = (target) => {
   telephone: ''
  })
  }
+// verifier si le formulaire est vide
+const isFormEmpty = !formData.nomResponsable && 
+!formData.adresse && 
+!formData.commune && 
+!formData.nombrePersonnes &&
+!formData.telephone;
 
+// Désactiver le bouton Ajouter si le formulaire est vide
+const isAddDisabled = isFormEmpty;
 
 //Sauvegarder les modifications du formulaire
   const handleSave=(e)=>{
@@ -257,7 +265,7 @@ return(
       onChange={(value) => handleChange({ name: "telephone", value })} />
 
       {editingId === null? (
-        <Button onClick={handleAdd} >
+        <Button onClick={handleAdd} disabled={isAddDisabled}>
           Ajouter
         </Button>
       ): (

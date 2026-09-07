@@ -244,13 +244,6 @@ return(
      onChange={(value) => handleChange({ name: "adresse", value })} />
      <hr className=" border-1 border-dark" />
     <Input 
-     type="text"
-    label="Adresse" 
-    name="adresse"
-     value={formData.adresse} 
-     onChange={(value) => handleChange({ name: "adresse", value })} />
-     <hr className="border-1 border-dark" />
-    <Input 
     type="text"
     label="Commune" 
     name="commune"

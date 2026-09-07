@@ -60,24 +60,41 @@ const handleChange = (target) => {
 
    const handleAdd= (e)=>{
     e.preventDefault()
+   
+// Vérifier les champs obligatoires
     if (!formData.nomResponsable || 
       !formData.nombrePersonnes ||
        !formData.adresse || 
-       !formData.commune || 
-       !formData.telephone) {
-      alert("Remplissez tous les champs");
+       !formData.commune) {
+      alert("Remplissez ces champs");
       return;
     }
+     
+// convertir le nombre de personnes en entier
+    const nombrePersonnes = parseInt(formData.nombrePersonnes, 10);
+
+    // Vérifier que c'est un entier supérieur ou égal à 1
+    if (isNaN(nombrePersonnes) || nombrePersonnes < 1) {
+      alert("Le nombre de personnes doit être un entier supérieur ou égal à 1.");
+      return;
+    }
+
+
+// Ajouter le formulaire
  const newItem= {
   id: Date.now(),
   nomResponsable: formData.nomResponsable,
   adresse: formData.adresse,
   commune: formData.commune,
-  nombrePersonnes: parseInt(formData.nombrePersonnes),
+  nombrePersonnes: nombrePersonnes,
   checked: false,
   telephone: formData.telephone
 
  }
+
+
+//Vider le formulaire après l'ajout
+
  setItems(prev=>[...prev, newItem]);
  setFormData({
   nomResponsable: '',
@@ -92,15 +109,23 @@ const handleChange = (target) => {
 //Sauvegarder les modifications du formulaire
   const handleSave=(e)=>{
     e.preventDefault()
+    // Vérifier les champs obligatoires
     if (!formData.nomResponsable ||
        !formData.nombrePersonnes || 
       !formData.adresse || 
-      !formData.commune || 
-      !formData.telephone) {
-      alert("Remplissez tous les champs");
+      !formData.commune) {
+      alert("Remplissez ces champs");
       return;
     }
 
+  // convertir le nombre de personnes en entier
+    const nombrePersonnes = parseInt(formData.nombrePersonnes, 10);
+    if (isNaN(nombrePersonnes) || nombrePersonnes < 1) {
+      alert("Le nombre de personnes doit être un entier supérieur ou égal à 1.");
+      return;
+    }
+
+  // Ajouter les modifications à l'élément correspondant dans la liste
   setItems((prev) =>
       prev.map((items) =>
         items.id === editingId
@@ -109,12 +134,13 @@ const handleChange = (target) => {
               nomResponsable: formData.nomResponsable,
               adresse: formData.adresse,
               commune: formData.commune,
-              nombrePersonnes: parseInt(formData.nombrePersonnes),
+              nombrePersonnes: nombrePersonnes,
               telephone: formData.telephone
             }
           : items
       )
     );
+     // Réinitialiser le formulaire
       setEditingId(null)
       setFormData({
       nomResponsable: "",
@@ -169,22 +195,29 @@ return(
   <h2 className='mb-3 p-2 fw-bold'> Formulaire à remplir </h2>
   <form className='mb-3 p-2 border border-secondary  rounded'>
     <Input
+     type="text"
      label="Nom du responsable" 
      name="nomResponsable" 
      value={formData.nomResponsable} 
      onChange={(value) => handleChange({ name: "nomResponsable", value })} />
     <Input 
+     type="text"
     label="Adresse" 
     name="adresse"
      value={formData.adresse} 
      onChange={(value) => handleChange({ name: "adresse", value })} />
     <Input 
+    type="text"
     label="Commune" 
     name="commune"
      value={formData.commune}
       onChange={(value) => handleChange({ name: "commune", value })} />
     <Input
      label="Nombre de personnes"
+     type="number"
+     min="1"
+     step="1"
+     required
       name="nombrePersonnes" 
       value={formData.nombrePersonnes}
        onChange={(value) => handleChange({ name: "nombrePersonnes", value })} />

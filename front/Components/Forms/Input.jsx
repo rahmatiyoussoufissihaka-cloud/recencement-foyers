@@ -6,14 +6,14 @@
  */
 import { useId } from "react"
 
-export function Input({label, value, onChange }) {
+export function Input({label, value, onChange, type }) {
     const id= useId()
     return <div className="my-3 row align-items-center mx-2">
         <label htmlFor={id} className="form-label col-sm-3 col-form-label fw-bold ">
             {label} :
         </label>
         <div className="col-sm-9">
-            <input id={id} type="text" className="form-control border-2 border-dark "  value={value} onChange={(e)=>onChange(e.target.value)} />
+            <input id={id} type={type} className="form-control border-2 border-dark "  value={value} onChange={(e)=>onChange(e.target.value)} />
       
         </div>
         

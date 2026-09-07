@@ -66,7 +66,7 @@ const handleChange = (target) => {
       !formData.nombrePersonnes ||
        !formData.adresse || 
        !formData.commune) {
-      alert("Remplissez ces champs");
+      alert("Remplissez les autres champs");
       return;
     }
 
@@ -129,7 +129,7 @@ const isAddDisabled = isFormEmpty;
        !formData.nombrePersonnes || 
       !formData.adresse || 
       !formData.commune) {
-      alert("Remplissez ces champs");
+      alert("Remplissez les autres champs");
       return;
     }
 
@@ -269,7 +269,7 @@ return(
           Ajouter
         </Button>
       ): (
-        <Button onClick={handleSave} >
+        <Button onClick={handleSave} disabled={isAddDisabled}> 
           Sauvegarder
         </Button>
       )}

@@ -69,6 +69,13 @@ const handleChange = (target) => {
       alert("Remplissez ces champs");
       return;
     }
+
+   // Vérifier  si le numero de téléphone est valide
+    const phoneRegex = /^\+?\d{1,3}[- ]?\d{1,4}[- ]?\d{1,4}[- ]?\d{1,9}$/;
+    if (formData.telephone && !phoneRegex.test(formData.telephone)) {
+      alert("Le numéro de téléphone n'est pas valide.");
+      return;
+    }  
      
 // convertir le nombre de personnes en entier
     const nombrePersonnes = parseInt(formData.nombrePersonnes, 10);
@@ -117,6 +124,13 @@ const handleChange = (target) => {
       alert("Remplissez ces champs");
       return;
     }
+  // Vérifier  si le numero de téléphone est valide
+    const phoneRegex = /^\+?\d{1,3}[- ]?\d{1,4}[- ]?\d{1,4}[- ]?\d{1,9}$/;
+    if (formData.telephone && !phoneRegex.test(formData.telephone)) {
+      alert("Le numéro de téléphone n'est pas valide.");
+      return;
+    }
+
 
   // convertir le nombre de personnes en entier
     const nombrePersonnes = parseInt(formData.nombrePersonnes, 10);
@@ -229,6 +243,7 @@ return(
      type="tel" 
      name="telephone" 
      value={formData.telephone}
+      placeholder="Ex: +269 3214567"
       onChange={(value) => handleChange({ name: "telephone", value })} />
 
       {editingId === null? (
@@ -242,7 +257,7 @@ return(
       )}
   </form>
 
-   <hr className="my-4 fw-bold " />
+   <hr />
    <label className="form-check-label fw-bold">
       {isChecked ? "Masquer la liste des foyers" : "Afficher la liste des foyers"}
     </label>

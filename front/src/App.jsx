@@ -120,6 +120,9 @@ const handleChange = (target) => {
 
   // convertir le nombre de personnes en entier
     const nombrePersonnes = parseInt(formData.nombrePersonnes, 10);
+   
+  //verifier que c'est un entier supérieur ou égal à 1
+
     if (isNaN(nombrePersonnes) || nombrePersonnes < 1) {
       alert("Le nombre de personnes doit être un entier supérieur ou égal à 1.");
       return;
@@ -140,7 +143,7 @@ const handleChange = (target) => {
           : items
       )
     );
-     // Réinitialiser le formulaire
+ // Réinitialiser le formulaire
       setEditingId(null)
       setFormData({
       nomResponsable: "",
@@ -239,9 +242,9 @@ return(
       )}
   </form>
 
-   <hr />
+   <hr className="my-4 fw-bold " />
    <label className="form-check-label fw-bold">
-      Afficher la liste des foyers
+      {isChecked ? "Masquer la liste des foyers" : "Afficher la liste des foyers"}
     </label>
    <Checkbox checked={isChecked} onCheck={setIsChecked} />
    {isChecked && <div>

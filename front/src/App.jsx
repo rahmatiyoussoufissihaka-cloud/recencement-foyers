@@ -209,6 +209,17 @@ return(
 <div className='container my-3'>
   <h1 className='mb-3 p-2 fw-bold'>Recensement des Foyers</h1>
   <h2 className='mb-3 p-2 fw-bold'> Formulaire à remplir </h2>
+
+  <div className="d-flex align-items-center my-4">
+  <hr className="flex-grow-1" />
+
+  <span className="mx-3 fw-bold">
+    Ajouter un foyer
+  </span>
+
+  <hr className="flex-grow-1" />
+</div>
+
   <form className='mb-3 p-2 border border-secondary  rounded'>
     <Input
      type="text"
@@ -242,7 +253,7 @@ return(
      type="tel" 
      name="telephone" 
      value={formData.telephone}
-      placeholder="Ex: +269 3214567"
+      placeholder="Ex: +269 321 45 67"
       onChange={(value) => handleChange({ name: "telephone", value })} />
 
       {editingId === null? (
@@ -256,20 +267,29 @@ return(
       )}
   </form>
 
-   <hr />
+   <hr   className="w-75 mx-auto my-4 border-2 border-dark" />
    <label className="form-check-label fw-bold">
       {isChecked ? "Masquer la liste des foyers" : "Afficher la liste des foyers"}
     </label>
    <Checkbox checked={isChecked} onCheck={setIsChecked} />
-   {isChecked && <div>
+   {isChecked && <div className="mt-5">
     
     <div>
-<h2 className='mb-3 p-2 fw-bold'>Liste des foyers</h2>
-<span className='fw-bold'>
-   {items.length} formulaires
+<div className="d-flex align-items-center my-4">
+  <hr className="flex-grow-1" />
+
+  <span className="mx-3 fw-bold">
+    Liste des foyers
+  </span>
+
+  <hr className="flex-grow-1" />
+</div>
+
+<span className='fw-bold mb-4'>
+   Nombre de foyers : {items.length}
 </span>
 <br />
-<span className='fw-bold'>Nombre des personnes recensées : {totalPersonnes}</span>
+<span className='fw-bold mt-3'>Nombre des personnes recensées : {totalPersonnes}</span>
 </div>
   <table className="table table-striped table-bordered border-secondary table-info mt-3">
     <thead>

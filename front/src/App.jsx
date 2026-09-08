@@ -133,7 +133,7 @@ const isAddDisabled = isFormEmpty;
        !formData.nombrePersonnes || 
       !formData.adresse || 
       !formData.commune) {
-      alert("Remplissez tous les champs obligatoires");
+      alert("Remplissez tous les champs");
       return;
     }
 
@@ -191,20 +191,11 @@ const handleDelete=(id)=>{
           return;
            
         }
-setItems(items.filter((item)=>!item.checked))
+setItems(items.filter((item)=>item.id !==id))
 
   
     // Message de confirmation
  alert("✅ Élément supprimé avec succès !")
-    }
-
-// Verifier si un élément est coché
-const isAnyChecked = items.some((item) => item.checked);
-
- // Cocher ou décocher un élément de la liste   
-const handleCheck=(id)=>{
-        setItems(items.map((item)=>item.id===id?
-        {...item, checked: !item.checked}:item))
     }
    
  // Modifier le formulaire   
@@ -319,10 +310,9 @@ return(
 <br />
 <span className='fw-bold mt-3'>Nombre des personnes recensées : {totalPersonnes}</span>
 </div>
-  <table className="table table-striped table-bordered border-secondary table-info mt-3">
+  <table className="table align-middle text-center table-striped table-bordered border-secondary table-info mt-3">
     <thead>
       <tr>
-        <th>Cocher pour selectionner</th>
         <th>Nom du responsable</th>
         <th>Adresse</th>
         <th>Commune</th>
@@ -335,33 +325,22 @@ return(
      
       {items.map((item) => (
         <tr key={item.id}>
-          <td>
-            <Checkbox
-              checked={item.checked}
-              onCheck={() => handleCheck(item.id)}
-              label="Coche pour sélectionner"
-            />
-
-        </td>
-          <td>{item.nomResponsable}</td>
+          <td className='align-item-center'>{item.nomResponsable}</td>
           <td>{item.adresse}</td>
           <td>{item.commune}</td>
           <td>{item.nombrePersonnes}</td>
           <td>{item.telephone}</td>
           <td>
             <Button onClick={() => handleEdit(item)}>Modifier</Button>
-            
+            <Button onClick={()=> handleDelete(item.id)}>
+             Supprimer
+             </Button>
           </td>
         </tr>
       ))}
     </tbody>
   </table>
-<Button  
-className="btn btn-danger" 
-onClick={ handleDelete}
- disabled={!isAnyChecked}>
-      Supprimer
-    </Button>
+
     
     </div>}
 

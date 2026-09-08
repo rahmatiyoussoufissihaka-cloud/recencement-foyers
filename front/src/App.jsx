@@ -325,6 +325,7 @@ return(
 <br />
 <span className='fw-bold mt-3'>Nombre des personnes recensées : {totalPersonnes}</span>
 </div>
+<div className='table-responsive'>
   <table className="table table-hover align-middle text-center table-striped table-bordered border-secondary table-info mt-3">
     <thead>
       <tr>
@@ -355,7 +356,7 @@ return(
       ))}
     </tbody>
   </table>
-
+</div>
     
     </div>}
 

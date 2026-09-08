@@ -10,13 +10,13 @@ export function Input({label, value, onChange, placeholder,required = false, typ
     const id= useId()
     return <div className="row align-items-center mx-2">
         <label htmlFor={id}
-         className="form-label col-sm-4 col-form-label fw-bold ">
+         className="form-label col-12 col-md-3 col-form-label fw-bold ">
             {label} 
             {required && (        
                 <span className="text-danger">*</span>
         )}
         </label>
-        <div className="col-sm-8">
+        <div className="col-12 col-md-9">
             <input id={id} 
             type={type}
              placeholder={placeholder}

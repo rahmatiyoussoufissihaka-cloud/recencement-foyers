@@ -8,7 +8,7 @@ import { useId } from "react"
 
 export function Input({label, value, onChange, placeholder,required = false, type }) {
     const id= useId()
-    return <div className="my-3 row align-items-center mx-2">
+    return <div className="row align-items-center mx-2">
         <label htmlFor={id}
          className="form-label col-sm-4 col-form-label fw-bold ">
             {label} 

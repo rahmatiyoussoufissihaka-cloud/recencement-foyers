@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useState , useRef} from 'react'
 import { Input } from '../Components/Forms/Input'
 import { Button } from '../Components/Forms/Button'
 import { Checkbox } from '../Components/Forms/Checkbox'
@@ -11,7 +11,7 @@ const [items, setItems] =useState([
   {
   id:1,
   nomResponsable: "Amina Soilihi",
-  adresse: "12 rue des Manguiers",
+  adresse: "Pangani",
   commune: "Mamoudzou",
   nombrePersonnes: 4,
   checked: true,
@@ -198,7 +198,10 @@ setItems(items.filter((item)=>item.id !==id))
  alert("✅ Élément supprimé avec succès !")
     }
    
- // Modifier le formulaire   
+
+const formRef= useRef(null)
+ // Modifier le formulaire  
+
 const handleEdit=(item)=>{
   setFormData({
     nomResponsable: item.nomResponsable,
@@ -208,6 +211,14 @@ const handleEdit=(item)=>{
     telephone: item.telephone
   })
   setEditingId(item.id)
+
+  // Aller vers le formulaire
+  setTimeout(() => {
+    formRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }, 0);
 
 }
 
@@ -223,14 +234,18 @@ return(
   <div className="d-flex align-items-center my-4">
   <hr className="flex-grow-1" />
 
-  <span className="mx-3 fw-bold">
-    Ajouter un foyer
+  {editingId?(<span className="mx-3 fw-bold">
+   
+    Modifier un foyer
+  </span>):(<span className="mx-3 fw-bold">
+     Ajouter un foyer
   </span>
-
+)
+ }
   <hr className="flex-grow-1" />
 </div>
 
-  <form className='mb-3 p-2 border border-secondary  rounded'>
+  <form ref={formRef} className='mb-3 p-2 border border-secondary  rounded'>
     <Input
      type="text"
      label="Nom du responsable" 

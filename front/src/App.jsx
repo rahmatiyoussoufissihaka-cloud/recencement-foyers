@@ -101,7 +101,6 @@ const handleChange = (target) => {
 
 
 //Vider le formulaire après l'ajout
-
  setItems(prev=>[...prev, newItem]);
  setFormData({
   nomResponsable: '',
@@ -109,8 +108,13 @@ const handleChange = (target) => {
   commune: '',
   nombrePersonnes: '',
   telephone: ''
- })
+ });
+
+// Message de confirmation
+ alert("Formulaire ajouté avec succès !")
  }
+
+
 // verifier si le formulaire est vide
 const isFormEmpty = !formData.nomResponsable && 
 !formData.adresse && 
@@ -175,6 +179,9 @@ const isAddDisabled = isFormEmpty;
     nombrePersonnes: '',
      telephone: ""
     })
+
+    // Message de confirmation
+ alert("✅ Modifications enregistrées avec succès !")
     }
   
 //Supprimer un élément de la liste
@@ -185,6 +192,10 @@ const handleDelete=(id)=>{
            
         }
 setItems(items.filter((item)=>!item.checked))
+
+  
+    // Message de confirmation
+ alert("✅ Élément supprimé avec succès !")
     }
 
 // Verifier si un élément est coché

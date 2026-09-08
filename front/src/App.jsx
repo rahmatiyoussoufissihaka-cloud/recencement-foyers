@@ -291,11 +291,11 @@ return(
       <hr className="border-1 border-dark" />
 
       {editingId === null? (
-        <Button onClick={handleAdd} disabled={isAddDisabled}>
+        <Button onClick={handleAdd} disabled={isAddDisabled} className="btn btn-primary">
           Ajouter
         </Button>
       ): (
-        <Button onClick={handleSave} disabled={isAddDisabled}> 
+        <Button onClick={handleSave} disabled={isAddDisabled} className="btn btn-success"> 
           Sauvegarder
         </Button>
       )}
@@ -325,7 +325,7 @@ return(
 <br />
 <span className='fw-bold mt-3'>Nombre des personnes recensées : {totalPersonnes}</span>
 </div>
-  <table className="table align-middle text-center table-striped table-bordered border-secondary table-info mt-3">
+  <table className="table table-hover align-middle text-center table-striped table-bordered border-secondary table-info mt-3">
     <thead>
       <tr>
         <th>Nom du responsable</th>
@@ -346,8 +346,8 @@ return(
           <td>{item.nombrePersonnes}</td>
           <td>{item.telephone}</td>
           <td>
-            <Button onClick={() => handleEdit(item)}>Modifier</Button>
-            <Button onClick={()=> handleDelete(item.id)}>
+            <Button onClick={() => handleEdit(item)} className="btn btn-primary m-1" >Modifier</Button>
+            <Button onClick={()=> handleDelete(item.id)} className="btn btn-danger m-1s">
              Supprimer
              </Button>
           </td>

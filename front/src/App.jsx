@@ -66,7 +66,7 @@ const handleChange = (target) => {
       !formData.nombrePersonnes ||
        !formData.adresse || 
        !formData.commune) {
-      alert("Remplissez les autres champs");
+      alert("Remplissez tous les champs obligatoirs");
       return;
     }
 
@@ -133,7 +133,7 @@ const isAddDisabled = isFormEmpty;
        !formData.nombrePersonnes || 
       !formData.adresse || 
       !formData.commune) {
-      alert("Remplissez les autres champs");
+      alert("Remplissez tous les champs obligatoires");
       return;
     }
 
@@ -245,31 +245,35 @@ return(
      label="Nom du responsable" 
      name="nomResponsable" 
      value={formData.nomResponsable} 
-     onChange={(value) => handleChange({ name: "nomResponsable", value })} />
+     onChange={(value) => handleChange({ name: "nomResponsable", value })}
+     required={true} />
      <hr className="border-1 border-dark" />
     <Input 
      type="text"
     label="Adresse" 
     name="adresse"
      value={formData.adresse} 
-     onChange={(value) => handleChange({ name: "adresse", value })} />
+     onChange={(value) => handleChange({ name: "adresse", value })} 
+     required={true} />
+     
      <hr className=" border-1 border-dark" />
     <Input 
     type="text"
     label="Commune" 
     name="commune"
      value={formData.commune}
-      onChange={(value) => handleChange({ name: "commune", value })} />
+      onChange={(value) => handleChange({ name: "commune", value })} 
+      required={true} />
       <hr className="border-1 border-dark" />
     <Input
      label="Nombre de personnes"
      type="number"
      min="1"
      step="1"
-     required
       name="nombrePersonnes" 
       value={formData.nombrePersonnes}
-       onChange={(value) => handleChange({ name: "nombrePersonnes", value })} />
+       onChange={(value) => handleChange({ name: "nombrePersonnes", value })} 
+       required={true} />
        <hr className="border-1 border-dark" />
     <Input
      label="Numero de Téléphone" 

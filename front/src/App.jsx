@@ -7,6 +7,7 @@ function App() {
 
  const [editingId, setEditingId]=useState(null)
  const [isChecked, setIsChecked] = useState(false);
+ const [communeSelectionnee, setCommuneSelectionnee] = useState("");
 const [items, setItems] =useState([
   {
   id:1,
@@ -14,7 +15,6 @@ const [items, setItems] =useState([
   adresse: "Pangani",
   commune: "Mamoudzou",
   nombrePersonnes: 4,
-  checked: true,
   telephone: "+269 45 67 890"
 },
 {
@@ -24,7 +24,6 @@ const [items, setItems] =useState([
   adresse: "Karthala",
   commune: "Moroni",
   nombrePersonnes: 14,
-  checked: false,
   telephone: "+269 33 12 345"
 },
 {
@@ -33,7 +32,6 @@ const [items, setItems] =useState([
   adresse: "Quartier 3",
   commune: "Ouani",
   nombrePersonnes: 7,
-  checked: true,
   telephone: "+269 34 05 736"
 }
 ])
@@ -55,6 +53,19 @@ const handleChange = (target) => {
   }));
 }
 
+//Filtrer par commune
+ 
+const communes = [...new Set(
+  items.map((item) => item.commune)
+)];
+const foyersFiltres = items.filter((item) => {
+  if (communeSelectionnee === "") {
+    return true;
+  }
+
+  return item.commune === communeSelectionnee;
+});
+
 
 // Ajouter une formulaire
 
@@ -66,14 +77,14 @@ const handleChange = (target) => {
       !formData.nombrePersonnes ||
        !formData.adresse || 
        !formData.commune) {
-      alert("Remplissez tous les champs obligatoirs");
+      alert("⚠️ Remplissez tous les champs obligatoires");
       return;
     }
 
    // Vérifier  si le numero de téléphone est valide
     const phoneRegex = /^\+?\d{1,3}[- ]?\d{1,4}[- ]?\d{1,4}[- ]?\d{1,9}$/;
     if (formData.telephone && !phoneRegex.test(formData.telephone)) {
-      alert("Le numéro de téléphone n'est pas valide.");
+      alert("⚠️ Le numéro de téléphone n'est pas valide.");
       return;
     }  
      
@@ -82,7 +93,7 @@ const handleChange = (target) => {
 
     // Vérifier que c'est un entier supérieur ou égal à 1
     if (isNaN(nombrePersonnes) || nombrePersonnes < 1) {
-      alert("Le nombre de personnes doit être un entier supérieur ou égal à 1.");
+      alert("⚠️ Le nombre de personnes doit être un entier supérieur ou égal à 1.");
       return;
     }
 
@@ -94,7 +105,6 @@ const handleChange = (target) => {
   adresse: formData.adresse,
   commune: formData.commune,
   nombrePersonnes: nombrePersonnes,
-  checked: false,
   telephone: formData.telephone
 
  }
@@ -111,7 +121,7 @@ const handleChange = (target) => {
  });
 
 // Message de confirmation
- alert("Formulaire ajouté avec succès !")
+ alert("✅ Formulaire ajouté avec succès !")
  }
 
 
@@ -133,14 +143,14 @@ const isAddDisabled = isFormEmpty;
        !formData.nombrePersonnes || 
       !formData.adresse || 
       !formData.commune) {
-      alert("Remplissez tous les champs");
+      alert("⚠️ Remplissez tous les champs obligatoires");
       return;
     }
 
   // Vérifier  si le numero de téléphone est valide
     const phoneRegex = /^\+?\d{1,3}[- ]?\d{1,4}[- ]?\d{1,4}[- ]?\d{1,9}$/;
     if (formData.telephone && !phoneRegex.test(formData.telephone)) {
-      alert("Le numéro de téléphone n'est pas valide.");
+      alert("⚠️ Le numéro de téléphone n'est pas valide.");
       return;
     }
 
@@ -151,7 +161,7 @@ const isAddDisabled = isFormEmpty;
   //verifier que c'est un entier supérieur ou égal à 1
 
     if (isNaN(nombrePersonnes) || nombrePersonnes < 1) {
-      alert("Le nombre de personnes doit être un entier supérieur ou égal à 1.");
+      alert("⚠️ Le nombre de personnes doit être un entier supérieur ou égal à 1.");
       return;
     }
 
@@ -175,8 +185,8 @@ const isAddDisabled = isFormEmpty;
       setFormData({
       nomResponsable: "",
       adresse: '',
-    commune: '',
-    nombrePersonnes: '',
+      commune: '',
+      nombrePersonnes: '',
      telephone: ""
     })
 
@@ -198,8 +208,9 @@ setItems(items.filter((item)=>item.id !==id))
  alert("✅ Élément supprimé avec succès !")
     }
    
-
+//Créer une reference vers le formulaire
 const formRef= useRef(null)
+
  // Modifier le formulaire  
 
 const handleEdit=(item)=>{
@@ -325,6 +336,25 @@ return(
 <br />
 <span className='fw-bold mt-3'>Nombre des personnes recensées : {totalPersonnes}</span>
 </div>
+<div className="mb-3">
+  <label className="form-label">
+    Filtrer par commune
+  </label>
+
+  <select
+    className="form-select"
+    value={communeSelectionnee}
+    onChange={(e) => setCommuneSelectionnee(e.target.value)}
+  >
+    <option value="">Toutes les communes</option>
+     {communes.map((commune) => (
+    <option key={commune} value={commune}>
+      {commune}
+    </option>
+  ))}
+   
+  </select>
+</div>
 <div className='table-responsive'>
   <table className="table table-hover align-middle text-center table-striped table-bordered border-secondary table-info mt-3">
     <thead>
@@ -339,7 +369,7 @@ return(
     </thead>
     <tbody>
      
-      {items.map((item) => (
+      {foyersFiltres.map((item) => (
         <tr key={item.id}>
           <td className='align-item-center'>{item.nomResponsable}</td>
           <td>{item.adresse}</td>

@@ -8,6 +8,8 @@ function App() {
  const [editingId, setEditingId]=useState(null)
  const [isChecked, setIsChecked] = useState(false);
  const [communeSelectionnee, setCommuneSelectionnee] = useState("");
+ const [tri, setTri] = useState("");
+ const [ordre, setOrdre] = useState("asc");
 const [items, setItems] =useState([
   {
   id:1,
@@ -53,18 +55,45 @@ const handleChange = (target) => {
   }));
 }
 
-//Filtrer par commune
+
  
 const communes = [...new Set(
   items.map((item) => item.commune)
 )];
-const foyersFiltres = items.filter((item) => {
-  if (communeSelectionnee === "") {
-    return true;
-  }
 
-  return item.commune === communeSelectionnee;
-});
+// Filtrer les foyers par commune et trier 
+
+const foyersFiltresEtTries = [...items]
+  .filter((item) => {
+    if (communeSelectionnee === "") {
+      return true;
+    }
+
+    return item.commune === communeSelectionnee;
+  })
+  .sort((a, b) => {
+
+    if (tri === "nomResponsable") {
+      const resultat = a.nomResponsable.localeCompare(b.nomResponsable);
+      return ordre === "asc" ? resultat : -resultat;
+    }
+
+    if (tri === "nombrePersonnes") {
+      const resultat =
+        a.nombrePersonnes - b.nombrePersonnes;
+
+      return ordre === "asc" ? resultat : -resultat;
+    }
+
+    if (tri === "commune") {
+      const resultat =
+        a.commune.localeCompare(b.commune);
+
+      return ordre === "asc" ? resultat : -resultat;
+    }
+
+    return 0;
+  });
 
 
 // Ajouter une formulaire
@@ -336,24 +365,62 @@ return(
 <br />
 <span className='fw-bold mt-3'>Nombre des personnes recensées : {totalPersonnes}</span>
 </div>
-<div className="mb-3">
-  <label className="form-label">
-    Filtrer par commune
-  </label>
 
-  <select
-    className="form-select"
-    value={communeSelectionnee}
-    onChange={(e) => setCommuneSelectionnee(e.target.value)}
-  >
-    <option value="">Toutes les communes</option>
-     {communes.map((commune) => (
-    <option key={commune} value={commune}>
-      {commune}
-    </option>
-  ))}
-   
-  </select>
+<div className="row g-3 m-4">
+
+  <div className="col-12 col-md-4">
+    <label className="form-label fw-bold">
+      Filtrer par commune
+    </label>
+
+    <select
+      className="form-select"
+      value={communeSelectionnee}
+      onChange={(e) => setCommuneSelectionnee(e.target.value)}
+    >
+      <option value="">Toutes les communes</option>
+
+      {communes.map((commune) => (
+        <option key={commune} value={commune}>
+          {commune}
+        </option>
+      ))}
+    </select>
+  </div>
+  <div className="col-12 col-md-4">
+    <label className="form-label fw-bold">
+      Trier par
+    </label>
+
+    <select
+      className="form-select"
+      value={tri}
+      onChange={(e) => setTri(e.target.value)}
+    >
+      <option value="">Aucun tri</option>
+      <option value="nomResponsable">Nom</option>
+      <option value="commune">Commune</option>
+      <option value="nombrePersonnes">
+        Nombre de personnes
+      </option>
+    </select>
+  </div>
+
+
+  <div className="col-12 col-md-4">
+    <label className="form-label fw-bold">
+      Ordre
+    </label>
+
+    <select
+      className="form-select"
+      value={ordre}
+      onChange={(e) => setOrdre(e.target.value)}
+    >
+      <option value="asc">Croissant ↑</option>
+      <option value="desc">Décroissant ↓</option>
+    </select>
+  </div>
 </div>
 <div className='table-responsive'>
   <table className="table table-hover align-middle text-center table-striped table-bordered border-secondary table-info mt-3">
@@ -369,7 +436,7 @@ return(
     </thead>
     <tbody>
      
-      {foyersFiltres.map((item) => (
+      {foyersFiltresEtTries.map((item) => (
         <tr key={item.id}>
           <td className='align-item-center'>{item.nomResponsable}</td>
           <td>{item.adresse}</td>

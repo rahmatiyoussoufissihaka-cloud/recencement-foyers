@@ -13,7 +13,7 @@ function App() {
 const [items, setItems] =useState([
   {
   id:1,
-  nomResponsable: "Amina Soilihi",
+  nomResponsable: " Zaid Soilihi",
   adresse: "Pangani",
   commune: "Mamoudzou",
   nombrePersonnes: 4,
@@ -22,7 +22,7 @@ const [items, setItems] =useState([
 {
 
   id:2,
-  nomResponsable: "Saidou Abdou",
+  nomResponsable: " Ali Abdou",
   adresse: "Karthala",
   commune: "Moroni",
   nombrePersonnes: 14,
@@ -72,29 +72,25 @@ const foyersFiltresEtTries = [...items]
     return item.commune === communeSelectionnee;
   })
   .sort((a, b) => {
+// Trier par nom
 
     if (tri === "nomResponsable") {
-      const resultat = a.nomResponsable.localeCompare(b.nomResponsable);
-      return ordre === "asc" ? resultat : -resultat;
+      const resultat= a.nomResponsable.localeCompare(b.nomResponsable, "fr", {
+        sensitivity: "base",});
+     return ordre === "asc" ? resultat : -resultat;
     }
-
+// Trier par nombre de personnes
     if (tri === "nombrePersonnes") {
-      const resultat =
-        a.nombrePersonnes - b.nombrePersonnes;
-
-      return ordre === "asc" ? resultat : -resultat;
+       const resultat =
+      Number(a.nombrePersonnes) - Number(b.nombrePersonnes);
+       return ordre === "asc" ? resultat : -resultat;
+     
     }
-
-    if (tri === "commune") {
-      const resultat =
-        a.commune.localeCompare(b.commune);
-
-      return ordre === "asc" ? resultat : -resultat;
-    }
-
     return 0;
   });
-
+console.log(
+  foyersFiltresEtTries.map((item) => item.nomResponsable)
+);
 
 // Ajouter une formulaire
 
@@ -399,7 +395,6 @@ return(
     >
       <option value="">Aucun tri</option>
       <option value="nomResponsable">Nom</option>
-      <option value="commune">Commune</option>
       <option value="nombrePersonnes">
         Nombre de personnes
       </option>
@@ -417,8 +412,8 @@ return(
       value={ordre}
       onChange={(e) => setOrdre(e.target.value)}
     >
-      <option value="asc">Croissant ↑</option>
-      <option value="desc">Décroissant ↓</option>
+     <option value="asc">Croissant (A → Z / petit → grand)</option>
+  <option value="desc">Décroissant (Z → A / grand → petit)</option>
     </select>
   </div>
 </div>

@@ -10,33 +10,7 @@ function App() {
  const [communeSelectionnee, setCommuneSelectionnee] = useState("");
  const [tri, setTri] = useState("");
  const [ordre, setOrdre] = useState("asc");
-const [items, setItems] =useState([
-  {
-  id:1,
-  nomResponsable: " Zaid Soilihi",
-  adresse: "Pangani",
-  commune: "Mamoudzou",
-  nombrePersonnes: 12,
-  telephone: "+269 45 67 890"
-},
-{
-
-  id:2,
-  nomResponsable: " Ali Abdou",
-  adresse: "Karthala",
-  commune: "Moroni",
-  nombrePersonnes: 14,
-  telephone: "+269 33 12 345"
-},
-{
-  id:3,
-  nomResponsable: " Moussa Ibrahim",
-  adresse: "Quartier 3",
-  commune: "Ouani",
-  nombrePersonnes: 7,
-  telephone: "+269 34 05 736"
-}
-])
+const [items, setItems] =useState([])
 
 
 const [formData, setFormData] = useState({

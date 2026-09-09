@@ -10,6 +10,7 @@ function App() {
  const [communeSelectionnee, setCommuneSelectionnee] = useState("");
  const [tri, setTri] = useState("");
  const [ordre, setOrdre] = useState("asc");
+ const [foyerSelectionne, setFoyerSelectionne] = useState(null);
 const [items, setItems] =useState([])
 
 
@@ -29,7 +30,9 @@ const handleChange = (target) => {
   }));
 }
 
-
+const handleView = (item) => {
+  setFoyerSelectionne(item);
+}
  
 const communes = [...new Set(
   items.map((item) => item.commune)
@@ -330,10 +333,10 @@ return(
 </div>
 
 <span className='fw-bold mb-4'>
-   Nombre de foyers : {items.length}
+   Nombre de foyer(s) : {items.length}
 </span>
 <br />
-<span className='fw-bold mt-3'>Nombre des personnes recensées : {totalPersonnes}</span>
+<span className='fw-bold mt-3'>Nombre de personne(s) recensée(s) : {totalPersonnes}</span>
 </div>
 
 <div className="row g-3 m-4">
@@ -396,10 +399,8 @@ return(
     <thead>
       <tr>
         <th>Nom du responsable</th>
-        <th>Adresse</th>
         <th>Commune</th>
         <th>Nombre de personnes</th>
-        <th>Numero de Téléphone</th>
         <th>Actions</th>
       </tr>
     </thead>
@@ -413,15 +414,16 @@ return(
   foyersFiltresEtTries.map((item) => (
         <tr key={item.id}>
           <td className='align-item-center'>{item.nomResponsable}</td>
-          <td>{item.adresse}</td>
           <td>{item.commune}</td>
           <td>{item.nombrePersonnes}</td>
-          <td>{item.telephone}</td>
           <td>
             <Button onClick={() => handleEdit(item)} className="btn btn-primary m-1" >Modifier</Button>
-            <Button onClick={()=> handleDelete(item.id)} className="btn btn-danger m-1s">
+            <Button onClick={()=> handleDelete(item.id)} className="btn btn-danger m-1">
              Supprimer
              </Button>
+              <Button onClick={() => handleView(item)} className="btn btn-info m-1" >
+               Consulter
+               </Button>
           </td>
         </tr>
       ))
@@ -431,6 +433,72 @@ return(
     </tbody>
   </table>
 </div>
+{foyerSelectionne && (
+  <div
+    className="modal fade show d-block"
+    tabIndex="-1"
+    role="dialog"
+  >
+    <div className="modal-dialog modal-dialog-centered">
+      <div className="modal-content">
+
+        <div className="modal-header bg-info">
+          <h5 className="modal-title">
+            Informations du foyer
+          </h5>
+
+          <button
+            type="button"
+            className="btn-close"
+            onClick={() => setFoyerSelectionne(null)}
+          ></button>
+        </div>
+
+        <div className="modal-body bg-light">
+
+          <p>
+            <strong>Responsable :</strong>{" "}
+            {foyerSelectionne.nomResponsable}
+          </p>
+
+          <p>
+            <strong>Adresse :</strong>{" "}
+            {foyerSelectionne.adresse}
+          </p>
+
+          <p>
+            <strong>Commune :</strong>{" "}
+            {foyerSelectionne.commune}
+          </p>
+
+          <p>
+            <strong>Nombre de personnes :</strong>{" "}
+            {foyerSelectionne.nombrePersonnes}
+          </p>
+
+          <p>
+            <strong>Téléphone :</strong>{" "}
+            {foyerSelectionne.telephone}
+          </p>
+
+        </div>
+
+        <div className="modal-footer">
+
+          <Button
+          className="btn btn-danger "
+            onClick={() => setFoyerSelectionne(null)}
+          >
+            Fermer
+          </Button>
+
+        </div>
+
+      </div>
+    </div>
+    
+  </div>
+)}
     
     </div>}
 

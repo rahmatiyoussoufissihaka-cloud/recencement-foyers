@@ -16,7 +16,7 @@ const [items, setItems] =useState([
   nomResponsable: " Zaid Soilihi",
   adresse: "Pangani",
   commune: "Mamoudzou",
-  nombrePersonnes: 4,
+  nombrePersonnes: 12,
   telephone: "+269 45 67 890"
 },
 {
@@ -338,10 +338,10 @@ return(
   </form>
 
    <hr   className="w-75 mx-auto my-4 border-2 border-dark" />
-   <label className="form-check-label fw-bold">
+   <label className="form-check-label fw-bold"  htmlFor ='checkbox'>
       {isChecked ? "Masquer la liste des foyers" : "Afficher la liste des foyers"}
     </label>
-   <Checkbox checked={isChecked} onCheck={setIsChecked} />
+   <Checkbox checked={isChecked} onCheck={setIsChecked} id ="checkbox" />
    {isChecked && <div className="mt-5">
     
     <div>
@@ -412,8 +412,8 @@ return(
       value={ordre}
       onChange={(e) => setOrdre(e.target.value)}
     >
-     <option value="asc">Croissant (A → Z / petit → grand)</option>
-  <option value="desc">Décroissant (Z → A / grand → petit)</option>
+   <option value="asc">Croissant ↑</option>
+  <option value="desc">Décroissant ↓</option>
     </select>
   </div>
 </div>
@@ -430,8 +430,13 @@ return(
       </tr>
     </thead>
     <tbody>
-     
-      {foyersFiltresEtTries.map((item) => (
+      {foyersFiltresEtTries.length === 0 ? (
+    <tr>
+      <td colSpan="6" className="text-center py-4">
+        Aucun foyer trouvé.
+      </td>
+    </tr>):(
+  foyersFiltresEtTries.map((item) => (
         <tr key={item.id}>
           <td className='align-item-center'>{item.nomResponsable}</td>
           <td>{item.adresse}</td>
@@ -445,7 +450,10 @@ return(
              </Button>
           </td>
         </tr>
-      ))}
+      ))
+    )}
+     
+      
     </tbody>
   </table>
 </div>

@@ -255,33 +255,38 @@ return(
   <hr className="flex-grow-1" />
 </div>
 
-  <form ref={formRef} className=' bg-white rounded shadow-sm border border-secondary py-3'>
-    <Input
+  <form ref={formRef} className=' bg-white rounded shadow-sm border border-secondary py-3 m-2 row'>
+    <div>
+      <Input
      type="text"
      label="Nom du responsable" 
      name="nomResponsable" 
      value={formData.nomResponsable} 
      onChange={(value) => handleChange({ name: "nomResponsable", value })}
-     required={true} />
-     <hr className="border-1 border-dark" />
-    <Input 
+     required={true}  />
+     
+    </div>
+    <div className='col-md-6'>
+      <Input 
      type="text"
     label="Adresse" 
     name="adresse"
      value={formData.adresse} 
      onChange={(value) => handleChange({ name: "adresse", value })} 
      required={true} />
-     
-     <hr className=" border-1 border-dark" />
-    <Input 
+    </div>
+    <div className='col-md-6'>
+      <Input 
     type="text"
     label="Commune" 
     name="commune"
      value={formData.commune}
       onChange={(value) => handleChange({ name: "commune", value })} 
       required={true} />
-      <hr className="border-1 border-dark" />
-    <Input
+    </div>
+      
+    <div className='col-md-6'>
+      <Input
      label="Nombre de personnes"
      type="number"
      min="1"
@@ -290,15 +295,18 @@ return(
       value={formData.nombrePersonnes}
        onChange={(value) => handleChange({ name: "nombrePersonnes", value })} 
        required={true} />
-       <hr className="border-1 border-dark" />
-    <Input
+    </div>
+       
+    <div className='col-md-6 '>
+      <Input
      label="Numero de Téléphone" 
      type="tel" 
      name="telephone" 
      value={formData.telephone}
       placeholder="Ex: +269 321 45 67"
       onChange={(value) => handleChange({ name: "telephone", value })} />
-      <hr className="border-1 border-dark" />
+      
+    </div>
 
       {editingId === null? (
         <div className="row mt-2 d-flex  ">

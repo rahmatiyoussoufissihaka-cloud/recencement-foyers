@@ -9,11 +9,8 @@ function App() {
  const [isChecked, setIsChecked] = useState(false);
  const [communeSelectionnee, setCommuneSelectionnee] = useState("");
  const [tri, setTri] = useState("");
- const [ordre, setOrdre] = useState("asc");
  const [foyerSelectionne, setFoyerSelectionne] = useState(null);
 const [items, setItems] =useState([])
-
-
 const [formData, setFormData] = useState({
   nomResponsable: '',
   adresse: '',
@@ -30,6 +27,7 @@ const handleChange = (target) => {
   }));
 }
 
+//Consulter un foyer
 const handleView = (item) => {
   setFoyerSelectionne(item);
 }
@@ -52,15 +50,14 @@ const foyersFiltresEtTries = [...items]
 // Trier par nom
 
     if (tri === "nomResponsable") {
-      const resultat= a.nomResponsable.localeCompare(b.nomResponsable, "fr", {
+   return  a.nomResponsable.localeCompare(b.nomResponsable, "fr", {
         sensitivity: "base",});
-     return ordre === "asc" ? resultat : -resultat;
-    }
+   }
 // Trier par nombre de personnes
     if (tri === "nombrePersonnes") {
-       const resultat =
-      Number(a.nombrePersonnes) - Number(b.nombrePersonnes);
-       return ordre === "asc" ? resultat : -resultat;
+      
+    return  Number(a.nombrePersonnes) - Number(b.nombrePersonnes);
+       
      
     }
     return 0;
@@ -84,7 +81,7 @@ console.log(
     }
 
    // Vérifier  si le numero de téléphone est valide
-    const phoneRegex = /^\+?\d{1,3}[- ]?\d{1,4}[- ]?\d{1,4}[- ]?\d{1,9}$/;
+    const phoneRegex = /^\+?[0-9\s-]+$/;
     if (formData.telephone && !phoneRegex.test(formData.telephone)) {
       alert("⚠️ Le numéro de téléphone n'est pas valide.");
       return;
@@ -341,7 +338,7 @@ return(
 
 <div className="row g-3 m-4">
 
-  <div className="col-12 col-md-4">
+  <div className="col-12 col-md-6">
     <label className="form-label fw-bold">
       Filtrer par commune
     </label>
@@ -360,7 +357,7 @@ return(
       ))}
     </select>
   </div>
-  <div className="col-12 col-md-4">
+  <div className="col-12 col-md-6">
     <label className="form-label fw-bold">
       Trier par
     </label>
@@ -375,22 +372,6 @@ return(
       <option value="nombrePersonnes">
         Nombre de personnes
       </option>
-    </select>
-  </div>
-
-
-  <div className="col-12 col-md-4">
-    <label className="form-label fw-bold">
-      Ordre
-    </label>
-
-    <select
-      className="form-select"
-      value={ordre}
-      onChange={(e) => setOrdre(e.target.value)}
-    >
-   <option value="asc">Croissant ↑</option>
-  <option value="desc">Décroissant ↓</option>
     </select>
   </div>
 </div>
@@ -447,11 +428,11 @@ return(
             Informations du foyer
           </h5>
 
-          <button
-            type="button"
+          <Button
+            
             className="btn-close"
             onClick={() => setFoyerSelectionne(null)}
-          ></button>
+          ></Button>
         </div>
 
         <div className="modal-body bg-light">

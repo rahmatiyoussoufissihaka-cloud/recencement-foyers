@@ -8,19 +8,19 @@ import { useId } from "react"
 
 export function Input({label, value, onChange, placeholder,required = false, type }) {
     const id= useId()
-    return <div className="row align-items-center mx-2">
+    return <div className="align-items-center mx-2">
         <label htmlFor={id}
-         className="form-label col-12 col-md-3 col-form-label fw-bold ">
+         className="form-label col-form-label fw-bold ">
             {label} 
             {required && (        
                 <span className="text-danger">*</span>
         )}
         </label>
-        <div className="col-12 col-md-9">
+        <div>
             <input id={id} 
             type={type}
              placeholder={placeholder}
-             className="form-control border-2 border-dark " 
+             className="form-control border-2 border-dark m-1 shadow-sm " 
               value={value}
                onChange={(e)=>onChange(e.target.value)}  
                required={required} />

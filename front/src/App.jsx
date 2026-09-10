@@ -255,7 +255,7 @@ return(
   <hr className="flex-grow-1" />
 </div>
 
-  <form ref={formRef} className='mb-3 p-2 border border-secondary  rounded'>
+  <form ref={formRef} className=' bg-white rounded shadow-sm border border-secondary py-3'>
     <Input
      type="text"
      label="Nom du responsable" 
@@ -301,11 +301,24 @@ return(
       <hr className="border-1 border-dark" />
 
       {editingId === null? (
-        <Button onClick={handleAdd} disabled={isAddDisabled} className="btn btn-primary">
+        <div className="row mt-2 d-flex  ">
+          <div className='col-md-6 col-12'>
+            <Button onClick={handleAdd} disabled={isAddDisabled} className="btn btn-primary px-4  py-2 m-1 w-75">
           Ajouter
         </Button>
+          </div>
+        <div className='col-md-6  col-12'>
+          <Button
+          
+            onClick={() => setFormData({ nomResponsable: '', commune: '', telephone: '', nombrePersonnes: ''})}
+            className="btn btn-secondary px-4 py-2  m-1 w-75"
+          >
+            Réinitialiser
+          </Button>
+        </div>
+        </div>
       ): (
-        <Button onClick={handleSave} disabled={isAddDisabled} className="btn btn-success"> 
+        <Button onClick={handleSave} disabled={isAddDisabled} className="btn btn-success px-4  py-2 w-75"> 
           Sauvegarder
         </Button>
       )}
@@ -395,7 +408,7 @@ return(
     </tr>):(
   foyersFiltresEtTries.map((item, idex) => (
         <tr key={item.id}>
-          <td>{idex +1}</td>
+          <td>{idex + 1}</td>
           <td className='align-item-center'>{item.nomResponsable}</td>
           <td>{item.commune}</td>
           <td>{item.nombrePersonnes}</td>

@@ -379,6 +379,7 @@ return(
   <table className="table table-hover align-middle text-center table-striped table-bordered border-secondary table-info mt-3">
     <thead>
       <tr>
+        <th>N°</th>
         <th>Nom du responsable</th>
         <th>Commune</th>
         <th>Nombre de personnes</th>
@@ -392,8 +393,9 @@ return(
         Aucun foyer trouvé.
       </td>
     </tr>):(
-  foyersFiltresEtTries.map((item) => (
+  foyersFiltresEtTries.map((item, idex) => (
         <tr key={item.id}>
+          <td>{idex +1}</td>
           <td className='align-item-center'>{item.nomResponsable}</td>
           <td>{item.commune}</td>
           <td>{item.nombrePersonnes}</td>

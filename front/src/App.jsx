@@ -309,7 +309,7 @@ return(
     </div>
 
       {editingId === null? (
-        <div className="row mt-2 d-flex  ">
+        <div className="row mt-2 ">
           <div className='col-md-6 col-12'>
             <Button onClick={handleAdd} disabled={isAddDisabled} className="btn btn-primary px-4  py-2 m-1 w-75">
           Ajouter
@@ -326,9 +326,11 @@ return(
         </div>
         </div>
       ): (
-        <Button onClick={handleSave} disabled={isAddDisabled} className="btn btn-success px-4  py-2 w-75"> 
+        <div className='d-flex justify-content-center  mt-2'>
+          <Button onClick={handleSave} disabled={isAddDisabled} className="btn btn-success px-4  py-2 w-75"> 
           Sauvegarder
         </Button>
+        </div>
       )}
   </form>
 
@@ -349,12 +351,21 @@ return(
 
   <hr className="flex-grow-1" />
 </div>
-
-<span className='fw-bold mb-4'>
-   Nombre de foyer(s) : {items.length}
+<div className='row d-flex justify-content-center'>
+<div className=' col-md-6 mt-3 mb-4'>
+  <span className='fw-bold p-3 border border-1 rounded w-50  shadow-sm'>
+ 
+   Nombre de foyer(s): {items.length}
 </span>
-<br />
-<span className='fw-bold mt-3'>Nombre de personne(s) recensée(s) : {totalPersonnes}</span>
+</div>
+
+<div className='col-md-6 mt-3 mb-4'>
+  <span className='fw-bold py-3 ps-2 pe-3 border border-1 rounded w-50 shadow-sm'>
+  
+  Nombre de personne(s): {totalPersonnes}
+  </span>
+</div>
+</div>
 </div>
 
 <div className="row g-3 m-4">

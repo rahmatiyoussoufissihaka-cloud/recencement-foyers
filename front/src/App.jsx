@@ -6,7 +6,7 @@ import { Checkbox } from '../Components/Forms/Checkbox'
 function App() {
 
  const [editingId, setEditingId]=useState(null)
- const [isChecked, setIsChecked] = useState(false);
+ const [showTable, setShowTable] = useState(true);
  const [communeSelectionnee, setCommuneSelectionnee] = useState("");
  const [tri, setTri] = useState("");
  const [foyerSelectionne, setFoyerSelectionne] = useState(null);
@@ -333,15 +333,12 @@ return(
         </div>
       )}
   </form>
-
    <hr   className="w-75 mx-auto my-4 border-2 border-dark" />
-   <label className="form-check-label fw-bold"  htmlFor ='checkbox'>
-      {isChecked ? "Masquer la liste des foyers" : "Afficher la liste des foyers"}
-    </label>
-   <Checkbox checked={isChecked} onCheck={setIsChecked} id ="checkbox" />
-   {isChecked && <div className="mt-5">
+    <Checkbox  checked={showTable} onCheck={setShowTable}  role="switch"  id="checked" label = {showTable ? "Masquer la liste des foyers" : "Afficher la liste des foyers"} />
+   {showTable && <div className="mt-5">
     
     <div>
+      
 <div className="d-flex align-items-center my-4">
   <hr className="flex-grow-1" />
 
@@ -351,18 +348,18 @@ return(
 
   <hr className="flex-grow-1" />
 </div>
-<div className='row d-flex justify-content-center'>
+<div className='row '>
 <div className=' col-md-6 mt-3 mb-4'>
-  <span className='fw-bold p-3 border border-1 rounded w-50  shadow-sm'>
+  <span className='fw-bold p-3 border border-1 rounded   shadow-sm'>
  
    Nombre de foyer(s): {items.length}
 </span>
 </div>
 
 <div className='col-md-6 mt-3 mb-4'>
-  <span className='fw-bold py-3 ps-2 pe-3 border border-1 rounded w-50 shadow-sm'>
+  <span className='fw-bold py-3 ps-2 pe-3 border border-1 rounded shadow-sm'>
   
-  Nombre de personne(s): {totalPersonnes}
+  Nombre de personne(s): {totalPersonnes }
   </span>
 </div>
 </div>

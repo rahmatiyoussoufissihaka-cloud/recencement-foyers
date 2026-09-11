@@ -7,9 +7,13 @@ function App() {
 
  const [editingId, setEditingId]=useState(null)
  const [showTable, setShowTable] = useState(true);
+ //Etat du fitre
  const [communeSelectionnee, setCommuneSelectionnee] = useState("");
+ //Etat du tri
  const [tri, setTri] = useState("");
+ //Etat de consultation d'un foyer
  const [foyerSelectionne, setFoyerSelectionne] = useState(null);
+ //Etat pour stocker les valeurs des items
 const [items, setItems] =useState([])
 const [formData, setFormData] = useState({
   nomResponsable: '',
@@ -18,7 +22,7 @@ const [formData, setFormData] = useState({
   nombrePersonnes: '',
   telephone: ''
 })
-
+//La fonction handleChange capture l'événement de saisie
 const handleChange = (target) => {
   const { name, value } = target;
   setFormData((previous) => ({
@@ -32,13 +36,15 @@ const handleView = (item) => {
   setFoyerSelectionne(item);
 }
  
+//Récupérer les communes automatiquement
 const communes = [...new Set(
   items.map((item) => item.commune)
 )];
 
-// Filtrer les foyers par commune et trier 
+// Filtrer et trier 
 
 const foyersFiltresEtTries = [...items]
+//Filtrer par commune
   .filter((item) => {
     if (communeSelectionnee === "") {
       return true;
@@ -311,7 +317,9 @@ return(
       {editingId === null? (
         <div className="row mt-2 ">
           <div className='col-md-6 col-12'>
-            <Button onClick={handleAdd} disabled={isAddDisabled} className="btn btn-primary px-4  py-2 m-1 w-75">
+            <Button onClick={handleAdd} 
+            disabled={isAddDisabled} 
+            className="btn btn-primary px-4  py-2 m-1 w-75">
           Ajouter
         </Button>
           </div>
@@ -327,14 +335,21 @@ return(
         </div>
       ): (
         <div className='d-flex justify-content-center  mt-2'>
-          <Button onClick={handleSave} disabled={isAddDisabled} className="btn btn-success px-4  py-2 w-75"> 
+          <Button 
+          onClick={handleSave}
+           disabled={isAddDisabled}
+            className="btn btn-success px-4  py-2 w-75"> 
           Sauvegarder
         </Button>
         </div>
       )}
   </form>
    <hr   className="w-75 mx-auto my-4 border-2 border-dark" />
-    <Checkbox  checked={showTable} onCheck={setShowTable}  role="switch"  id="checked" label = {showTable ? "Masquer la liste des foyers" : "Afficher la liste des foyers"} />
+    <Checkbox 
+     checked={showTable}
+      onCheck={setShowTable}
+        id="checked"
+         label = {showTable ? "Masquer la liste des foyers" : "Afficher la liste des foyers"} />
    {showTable && <div className="mt-5">
     
     <div>

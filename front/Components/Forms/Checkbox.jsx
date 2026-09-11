@@ -1,6 +1,6 @@
 /**
  * @param {boolean} checked
- * @param {(v:boolean)=>void} onCheck
+ * @param {(event)=>void} onCheck
  * @param {string} label
  */
 import { useId } from "react"

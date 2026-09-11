@@ -2,11 +2,15 @@
 /**
  * @param {string} value
  * @param {string} label
- * @param {(v:boolean)=>void} onChange
+ * @param {boolean} required
+ * @param {string} type
+ * @param {string} placeholder
+ * 
+ * @param {(event)=>void} onChange
  */
 import { useId } from "react"
 
-export function Input({label, value, onChange, placeholder,required = false, type }) {
+export function Input({label, value, onChange, placeholder, required = false, type }) {
     const id= useId()
     return <div className="align-items-center mx-2">
         <label htmlFor={id}

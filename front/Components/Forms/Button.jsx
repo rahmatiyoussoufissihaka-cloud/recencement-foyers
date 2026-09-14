@@ -8,9 +8,9 @@
  */
 
 
-export function Button({  onClick, children, disabled, className}) {
+export function Button({  onClick, children, disabled, className, type }) {
   return (
-    <button  type="button" onClick={onClick} disabled={disabled}  className={className}>
+    <button  type={type} onClick={onClick} disabled={disabled}  className={className}>
       {children}
     </button>
   )

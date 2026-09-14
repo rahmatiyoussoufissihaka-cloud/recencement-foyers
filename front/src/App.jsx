@@ -1,4 +1,4 @@
-import { useState , useRef} from 'react'
+import { useState , useRef, useEffect} from 'react'
 import { Input } from '../Components/Forms/Input'
 import { Button } from '../Components/Forms/Button'
 import { Switch } from '../Components/Forms/Switch'
@@ -30,6 +30,10 @@ const handleChange = (target) => {
     [name]: value,
   }));
 }
+// Modifier le titre de la page
+useEffect(() => {
+  document.title = "Recensement des foyers";
+}, []);
 
 //Consulter un foyer
 const handleView = (item) => {
@@ -211,9 +215,21 @@ setItems(items.filter((item)=>item.id !==id))
     // Message de confirmation
  alert("✅ Élément supprimé avec succès !")
     }
-   
+
 //Créer une reference vers le formulaire
 const formRef= useRef(null)
+
+// Aller vers le formulaire
+  useEffect(() => {
+  if (editingId !== null) {
+    formRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }
+}, [editingId]);  
+   
+
 
  // Modifier le formulaire  
 
@@ -226,14 +242,6 @@ const handleEdit=(item)=>{
     telephone: item.telephone
   })
   setEditingId(item.id)
-
-  // Aller vers le formulaire
-  setTimeout(() => {
-    formRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  }, 0);
 
 }
 
@@ -260,7 +268,12 @@ return(
   <hr className="flex-grow-1" />
 </div>
 
-  <form ref={formRef} className=' bg-white rounded shadow-sm border border-secondary py-3 m-2 row'>
+  <form ref={formRef}
+   onSubmit={editingId?
+    handleSave
+    :handleAdd
+   }
+  className=' bg-white rounded shadow-sm border border-secondary py-3 m-2 row'>
     <div>
       <Input
      type="text"
@@ -316,7 +329,8 @@ return(
       {editingId === null? (
         <div className="row mt-2 ">
           <div className='col-md-6 col-12'>
-            <Button onClick={handleAdd} 
+            <Button
+            type ="submit"
             disabled={isAddDisabled} 
             className="btn btn-primary px-4  py-2 m-1 w-75">
           Ajouter
@@ -324,7 +338,6 @@ return(
           </div>
         <div className='col-md-6  col-12'>
           <Button
-          
             onClick={() => setFormData({ nomResponsable: '', commune: '', telephone: '', nombrePersonnes: ''})}
             className="btn btn-secondary px-4 py-2  m-1 w-75"
           >
@@ -334,8 +347,7 @@ return(
         </div>
       ): (
         <div className='d-flex justify-content-center  mt-2'>
-          <Button 
-          onClick={handleSave}
+          <Button type="submit"
            disabled={isAddDisabled}
             className="btn btn-success px-4  py-2 w-75"> 
           Sauvegarder

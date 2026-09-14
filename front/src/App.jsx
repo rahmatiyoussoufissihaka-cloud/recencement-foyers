@@ -1,7 +1,7 @@
 import { useState , useRef} from 'react'
 import { Input } from '../Components/Forms/Input'
 import { Button } from '../Components/Forms/Button'
-import { Checkbox } from '../Components/Forms/Checkbox'
+import { Switch } from '../Components/Forms/Switch'
 
 function App() {
 
@@ -68,9 +68,8 @@ const foyersFiltresEtTries = [...items]
     }
     return 0;
   });
-console.log(
-  foyersFiltresEtTries.map((item) => item.nomResponsable)
-);
+
+
 
 // Ajouter une formulaire
 
@@ -153,7 +152,7 @@ const isAddDisabled = isFormEmpty;
     }
 
   // Vérifier  si le numero de téléphone est valide
-    const phoneRegex = /^\+?\d{1,3}[- ]?\d{1,4}[- ]?\d{1,4}[- ]?\d{1,9}$/;
+    const phoneRegex = /^\+?[0-9\s-]+$/;
     if (formData.telephone && !phoneRegex.test(formData.telephone)) {
       alert("⚠️ Le numéro de téléphone n'est pas valide.");
       return;
@@ -345,9 +344,9 @@ return(
       )}
   </form>
    <hr   className="w-75 mx-auto my-4 border-2 border-dark" />
-    <Checkbox 
+    <Switch 
      checked={showTable}
-      onCheck={setShowTable}
+      onChange={setShowTable}
         id="checked"
          label = {showTable ? "Masquer la liste des foyers" : "Afficher la liste des foyers"} />
    {showTable && <div className="mt-5">

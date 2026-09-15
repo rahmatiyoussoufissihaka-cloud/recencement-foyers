@@ -24,7 +24,7 @@ export function Input({label, value, onChange, placeholder, required = false, ty
             <input id={id} 
             type={type}
              placeholder={placeholder}
-             className="form-control border-2 border-dark m-1 " 
+             className="form-control border-2 shadow-sm m-1 " 
               value={value}
                onChange={(e)=>onChange(e.target.value)}  
                required={required} />

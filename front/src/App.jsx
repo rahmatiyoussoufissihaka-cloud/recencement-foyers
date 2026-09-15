@@ -46,8 +46,8 @@ const communes = [...new Set(
 )];
 
 // Filtrer et trier 
-
 const foyersFiltresEtTries = [...items]
+
 //Filtrer par commune
   .filter((item) => {
     if (communeSelectionnee === "") {
@@ -56,19 +56,17 @@ const foyersFiltresEtTries = [...items]
 
     return item.commune === communeSelectionnee;
   })
-  .sort((a, b) => {
-// Trier par nom
-
+  // Trier par nom
+    .sort((a, b) => {
+  // trier par nom
     if (tri === "nomResponsable") {
    return  a.nomResponsable.localeCompare(b.nomResponsable, "fr", {
         sensitivity: "base",});
    }
-// Trier par nombre de personnes
+  // Trier par nombre de personnes
     if (tri === "nombrePersonnes") {
       
-    return  Number(a.nombrePersonnes) - Number(b.nombrePersonnes);
-       
-     
+    return  Number(b.nombrePersonnes) - Number(a.nombrePersonnes); 
     }
     return 0;
   });
@@ -79,24 +77,14 @@ const foyersFiltresEtTries = [...items]
 
    const handleAdd= (e)=>{
     e.preventDefault()
-   
-// Vérifier les champs obligatoires
-    if (!formData.nomResponsable || 
-      !formData.nombrePersonnes ||
-       !formData.adresse || 
-       !formData.commune) {
-      alert("⚠️ Remplissez tous les champs obligatoires");
-      return;
-    }
-
    // Vérifier  si le numero de téléphone est valide
-    const phoneRegex = /^\+?[0-9\s-]+$/;
+    const phoneRegex = /^\+?[0-9\s-]+$/; 
     if (formData.telephone && !phoneRegex.test(formData.telephone)) {
       alert("⚠️ Le numéro de téléphone n'est pas valide.");
       return;
     }  
      
-// convertir le nombre de personnes en entier
+    // convertir le nombre de personnes en entier
     const nombrePersonnes = parseInt(formData.nombrePersonnes, 10);
 
     // Vérifier que c'est un entier supérieur ou égal à 1
@@ -105,9 +93,8 @@ const foyersFiltresEtTries = [...items]
       return;
     }
 
-
-// Ajouter le formulaire
- const newItem= {
+   // Ajouter le formulaire
+  const newItem= {
   id: Date.now(),
   nomResponsable: formData.nomResponsable,
   adresse: formData.adresse,
@@ -117,43 +104,35 @@ const foyersFiltresEtTries = [...items]
 
  }
 
+   //Vider le formulaire après l'ajout
+   setItems(prev=>[...prev, newItem]);
+   setFormData({
+     nomResponsable: '',
+     adresse: '',
+     commune: '',
+     nombrePersonnes: '',
+     telephone: ''
+    });
 
-//Vider le formulaire après l'ajout
- setItems(prev=>[...prev, newItem]);
- setFormData({
-  nomResponsable: '',
-  adresse: '',
-  commune: '',
-  nombrePersonnes: '',
-  telephone: ''
- });
-
-// Message de confirmation
- alert("✅ Formulaire ajouté avec succès !")
- }
+  // Message de confirmation apres ajout
+   alert("✅ Formulaire ajouté avec succès !")
+  }
 
 
 // verifier si le formulaire est vide
-const isFormEmpty = !formData.nomResponsable && 
-!formData.adresse && 
-!formData.commune && 
-!formData.nombrePersonnes &&
-!formData.telephone;
+    const isFormEmpty = !formData.nomResponsable && 
+                        !formData.adresse && 
+                        !formData.commune && 
+                        !formData.nombrePersonnes &&
+                        !formData.telephone;
 
 // Désactiver le bouton Ajouter si le formulaire est vide
-const isAddDisabled = isFormEmpty;
+    const isAddDisabled = isFormEmpty;
 
 //Sauvegarder les modifications du formulaire
-  const handleSave=(e)=>{
+   const handleSave=(e)=>{
     e.preventDefault()
-    // Vérifier les champs obligatoires
-    if (!formData.nomResponsable ||
-       !formData.nombrePersonnes || 
-      !formData.adresse || 
-      !formData.commune) {
-      alert("⚠️ Remplissez tous les champs obligatoires");
-      return;
-    }
+   
 
   // Vérifier  si le numero de téléphone est valide
     const phoneRegex = /^\+?[0-9\s-]+$/;
@@ -173,7 +152,7 @@ const isAddDisabled = isFormEmpty;
       return;
     }
 
-  // Ajouter les modifications à l'élément correspondant dans la liste
+  // Ajouter les modifications dans la liste
   setItems((prev) =>
       prev.map((items) =>
         items.id === editingId
@@ -198,21 +177,20 @@ const isAddDisabled = isFormEmpty;
      telephone: ""
     })
 
-    // Message de confirmation
+  // Message de confirmation apres modification
  alert("✅ Modifications enregistrées avec succès !")
     }
   
 //Supprimer un élément de la liste
-const handleDelete=(id)=>{
-   const confirmation =window.confirm('Etes-vous sûr de vouloir supprimer ceci?')
-        if(!confirmation ){
-          return;
-           
+    const handleDelete=(id)=>{
+        const confirmation =window.confirm('Etes-vous sûr de vouloir supprimer ceci?')
+          if(!confirmation ){
+            return;
         }
 setItems(items.filter((item)=>item.id !==id))
 
   
-    // Message de confirmation
+  // Message de confirmation apres supression
  alert("✅ Élément supprimé avec succès !")
     }
 
@@ -230,9 +208,7 @@ const formRef= useRef(null)
 }, [editingId]);  
    
 
-
- // Modifier le formulaire  
-
+// Modifier le formulaire  
 const handleEdit=(item)=>{
   setFormData({
     nomResponsable: item.nomResponsable,
@@ -246,7 +222,8 @@ const handleEdit=(item)=>{
 }
 
 // Nombre total des personnes recensées
-const totalPersonnes = items.reduce((total, item) => total + item.nombrePersonnes, 0);
+const totalPersonnes = items.reduce((total, item) =>
+       total + item.nombrePersonnes, 0);
 
 
 return(
@@ -267,13 +244,12 @@ return(
  }
   <hr className="flex-grow-1" />
 </div>
-
   <form ref={formRef}
    onSubmit={editingId?
-    handleSave
+     handleSave
     :handleAdd
    }
-  className=' bg-white rounded shadow-sm border border-secondary py-3 m-2 row'>
+  className=' bg-white rounded shadow-sm border-1 border py-3 m-2 row'>
     <div>
       <Input
      type="text"
@@ -328,6 +304,15 @@ return(
 
       {editingId === null? (
         <div className="row mt-2 ">
+          <div className='col-md-6  col-12'>
+          <Button 
+          type='button'
+            onClick={() => setFormData({ nomResponsable: '', commune: '', telephone: '', nombrePersonnes: '', adresse: ''})}
+            className="btn btn-secondary px-4 py-2  m-1 w-75"
+          >
+            Réinitialiser
+          </Button>
+        </div>
           <div className='col-md-6 col-12'>
             <Button
             type ="submit"
@@ -336,14 +321,6 @@ return(
           Ajouter
         </Button>
           </div>
-        <div className='col-md-6  col-12'>
-          <Button
-            onClick={() => setFormData({ nomResponsable: '', commune: '', telephone: '', nombrePersonnes: ''})}
-            className="btn btn-secondary px-4 py-2  m-1 w-75"
-          >
-            Réinitialiser
-          </Button>
-        </div>
         </div>
       ): (
         <div className='d-flex justify-content-center  mt-2'>
@@ -431,7 +408,7 @@ return(
   </div>
 </div>
 <div className='table-responsive'>
-  <table className="table table-hover align-middle text-center table-striped table-bordered border-secondary table-info mt-3">
+  <table className="table table-hover align-middle text-center table-striped table-bordered border-1 shadow-sm table-info mt-3">
     <thead>
       <tr>
         <th>N°</th>
@@ -444,104 +421,96 @@ return(
     <tbody>
       {foyersFiltresEtTries.length === 0 ? (
     <tr>
-      <td colSpan="6" className="text-center py-4">
+      <td colSpan="5" className="text-center py-4">
         Aucun foyer trouvé.
       </td>
     </tr>):(
-  foyersFiltresEtTries.map((item, idex) => (
+  foyersFiltresEtTries.map((item, index) => (
         <tr key={item.id}>
-          <td>{idex + 1}</td>
+          <td>{index + 1}</td>
           <td className='align-item-center'>{item.nomResponsable}</td>
           <td>{item.commune}</td>
           <td>{item.nombrePersonnes}</td>
           <td>
-            <Button onClick={() => handleEdit(item)} className="btn btn-primary m-1" >Modifier</Button>
-            <Button onClick={()=> handleDelete(item.id)} className="btn btn-danger m-1">
+            <Button 
+            type='button' 
+            onClick={() => handleEdit(item)}
+             className="btn btn-primary m-1" >
+              Modifier
+              </Button>
+            <Button 
+            type='button'
+             onClick={()=> handleDelete(item.id)}
+              className="btn btn-danger m-1">
              Supprimer
              </Button>
-              <Button onClick={() => handleView(item)} className="btn btn-info m-1" >
+              <Button 
+              type='button'
+               onClick={() => handleView(item)} 
+               className="btn btn-info m-1" >
                Consulter
                </Button>
           </td>
         </tr>
       ))
     )}
-     
-      
     </tbody>
   </table>
 </div>
 {foyerSelectionne && (
   <div
-    className="modal fade show d-block"
+    className="modal fade show d-block"  style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
     tabIndex="-1"
     role="dialog"
   >
     <div className="modal-dialog modal-dialog-centered">
       <div className="modal-content">
-
-        <div className="modal-header bg-info">
+      <div className="modal-header bg-info">
           <h5 className="modal-title">
             Informations du foyer
           </h5>
-
           <Button
-            
             className="btn-close"
-            onClick={() => setFoyerSelectionne(null)}
-          ></Button>
+            onClick={() => setFoyerSelectionne(null)}>
+            </Button>
         </div>
-
         <div className="modal-body bg-light">
-
           <p>
             <strong>Responsable :</strong>{" "}
             {foyerSelectionne.nomResponsable}
           </p>
-
           <p>
             <strong>Adresse :</strong>{" "}
             {foyerSelectionne.adresse}
           </p>
-
           <p>
             <strong>Commune :</strong>{" "}
             {foyerSelectionne.commune}
           </p>
-
           <p>
             <strong>Nombre de personnes :</strong>{" "}
             {foyerSelectionne.nombrePersonnes}
           </p>
-
           <p>
             <strong>Téléphone :</strong>{" "}
             {foyerSelectionne.telephone}
           </p>
-
         </div>
-
         <div className="modal-footer">
-
           <Button
+          type='button'
           className="btn btn-danger "
             onClick={() => setFoyerSelectionne(null)}
           >
-            Fermer
+          Fermer
           </Button>
-
         </div>
-
       </div>
-    </div>
-    
+    </div> 
   </div>
 )}
-    
-    </div>}
-
+</div>}
 </div>
-
 )
 
 }

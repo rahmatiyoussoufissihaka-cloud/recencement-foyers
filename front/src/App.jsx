@@ -22,6 +22,24 @@ const [formData, setFormData] = useState({
   nombrePersonnes: '',
   telephone: ''
 })
+// Modifier le titre de la page
+useEffect(() => {
+  document.title = "Recensement des foyers";
+}, []);
+
+// Aller vers le formulaire
+  useEffect(() => {
+  if (editingId !== null) {
+    formRef.current?.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+    });
+  }
+}, [editingId]);  
+   
+//Créer une reference vers le formulaire
+const formRef= useRef(null)
+
 //La fonction handleChange capture l'événement de saisie
 const handleChange = (target) => {
   const { name, value } = target;
@@ -30,10 +48,6 @@ const handleChange = (target) => {
     [name]: value,
   }));
 }
-// Modifier le titre de la page
-useEffect(() => {
-  document.title = "Recensement des foyers";
-}, []);
 
 //Consulter un foyer
 const handleView = (item) => {
@@ -132,16 +146,12 @@ const foyersFiltresEtTries = [...items]
 //Sauvegarder les modifications du formulaire
    const handleSave=(e)=>{
     e.preventDefault()
-   
-
   // Vérifier  si le numero de téléphone est valide
     const phoneRegex = /^\+?[0-9\s-]+$/;
     if (formData.telephone && !phoneRegex.test(formData.telephone)) {
       alert("⚠️ Le numéro de téléphone n'est pas valide.");
       return;
     }
-
-
   // convertir le nombre de personnes en entier
     const nombrePersonnes = parseInt(formData.nombrePersonnes, 10);
    
@@ -194,19 +204,7 @@ setItems(items.filter((item)=>item.id !==id))
  alert("✅ Élément supprimé avec succès !")
     }
 
-//Créer une reference vers le formulaire
-const formRef= useRef(null)
 
-// Aller vers le formulaire
-  useEffect(() => {
-  if (editingId !== null) {
-    formRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "start",
-    });
-  }
-}, [editingId]);  
-   
 
 // Modifier le formulaire  
 const handleEdit=(item)=>{
@@ -353,14 +351,14 @@ return(
 </div>
 <div className='row '>
 <div className=' col-md-6 mt-3 mb-4'>
-  <span className='fw-bold p-3 border border-1 rounded   shadow-sm'>
+  <span className='fw-bold p-3 border border-1 rounded shadow-sm'>
  
    Nombre de foyer(s): {items.length}
 </span>
 </div>
 
 <div className='col-md-6 mt-3 mb-4'>
-  <span className='fw-bold py-3 ps-2 pe-3 border border-1 rounded shadow-sm'>
+  <span className='fw-bold p-3 border border-1 rounded shadow-sm'>
   
   Nombre de personne(s): {totalPersonnes }
   </span>

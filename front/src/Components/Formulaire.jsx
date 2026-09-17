@@ -23,20 +23,17 @@ const Formulaire = forwardRef(({ onSave, onCancel, fullData }, ref) => {
         }
     }, [fullData]); 
 
-  // Crée une référence locale reliée directement à la case HTML de saisie
-  const inputNomRef = useRef(null);
+  // Crée une référence vers le formulaire
+  const formRef = useRef(null);
 
   //Exposer la fonction "donnerLeFocus" vers le fichier App.jsx
   useImperativeHandle(ref, () => ({
     donnerLeFocus: () => {
-      if (inputNomRef.current) {
-        inputNomRef.current.focus(); // Active le curseur d'écriture
+      if (formRef.current) {
+        formRef.current.focus(); // Active le curseur d'écriture
       }
     }
   }));
-
-  
-
 const editingId = fullData !== null;
 
   const handleChange = ({ name, value }) => {
@@ -113,7 +110,7 @@ const editingId = fullData !== null;
            className="bg-white rounded shadow-sm border-1 border py-3 m-2 row">
           <div>
                 <Input
-                ref={inputNomRef} 
+                ref={formRef} 
                 onChange={(value) => handleChange({ name: "nomResponsable", value })} 
                 type="text"
                 label="Nom du responsable" 

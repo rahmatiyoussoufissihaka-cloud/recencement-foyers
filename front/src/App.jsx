@@ -5,7 +5,6 @@ import { Switch } from './Components/Forms/Switch';
 
 
 function App() {
-
   const [editingId, setEditingId]=useState(null)
   const [showTable, setShowTable] = useState(true);
   //Etat pour stocker les valeurs des items
@@ -27,23 +26,7 @@ function App() {
          });
         }
       }
-    }, [editingId]);  
-//Créer une reference vers le formulaire
-    const formRef= useRef(null)
-
-
-  // Modifier un foyer
-     const handleEdit = (item, index) => {
-     // Charger les données dans l'état
-       setEditingId({ ...item, index });
-      //  Activer le Focus et le SCROLL automatique
-        if (formRef.current) {
-          // Donner le focus au champ d'écriture
-          formRef.current.donnerLeFocus(); 
-        }
-     };
-
-  
+    }, [editingId]);    
   //Supprimer un élément de la liste
     const handleDelete=(id)=>{
       const confirmation =window.confirm('Etes-vous sûr de vouloir supprimer ceci?')

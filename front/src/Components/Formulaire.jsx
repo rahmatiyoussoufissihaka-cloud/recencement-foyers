@@ -164,7 +164,7 @@ const editingId = fullData !== null;
                     <div className='col-md-6 col-12'>
                         <Button type="submit"
                             disabled={isFormEmpty}
-                            className="btn btn-success px-4  m-1 py-2 w-75"> 
+                            className="btn btn-success px-4  m-1 py-2 w-100"> 
                             Mettre à jour
                         </Button>
                     </div>
@@ -179,22 +179,23 @@ const editingId = fullData !== null;
                 ):
                 (
                    <div className="row mt-2 ">
+                    <div className='col-md-6 col-12'>
+                            <Button
+                                type ="submit"
+                                disabled={isFormEmpty} 
+                                className="btn btn-primary px-4  py-2 m-1 w-100">
+                                Ajouter
+                            </Button>
+                        </div>
                         <div className='col-md-6  col-12'>
                             <Button 
                                 type='button'
                                 onClick={() => setFormData({ nomResponsable: '', commune: '', telephone: '', nombrePersonnes: '', adresse: ''})}
-                                className="btn btn-secondary px-4 py-2  m-1 w-75">
+                                className="btn btn-secondary px-4 py-2  m-1 w-50">
                                 Réinitialiser
                             </Button>
                         </div>
-                        <div className='col-md-6 col-12'>
-                            <Button
-                                type ="submit"
-                                disabled={isFormEmpty} 
-                                className="btn btn-primary px-4  py-2 m-1 w-75">
-                                Ajouter
-                            </Button>
-                        </div>
+                        
                     </div>)
                 }
             </form>

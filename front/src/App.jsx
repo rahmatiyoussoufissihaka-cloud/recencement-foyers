@@ -1,4 +1,4 @@
-import { useState , useRef, useEffect} from 'react'
+import { useState, useEffect} from 'react'
 import Formulaire from './Components/Formulaire';
 import { Liste } from './Components/Liste';
 import { Switch } from './Components/Forms/Switch';
@@ -47,7 +47,7 @@ function App() {
 
       //Message de confirmation 
       alert("✅ Modification annulée avec succès.");
-};
+    };
  
   //Sauvegarder 
     const handleSave = (donneesPropres) => {

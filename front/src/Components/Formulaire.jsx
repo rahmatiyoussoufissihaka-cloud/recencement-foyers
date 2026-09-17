@@ -167,14 +167,14 @@ const editingId = fullData !== null;
                     <div className='col-md-6 col-12'>
                         <Button type="submit"
                             disabled={isFormEmpty}
-                            className="btn btn-success px-4  py-2 w-75"> 
+                            className="btn btn-success px-4  m-1 py-2 w-75"> 
                             Mettre à jour
                         </Button>
                     </div>
                     <div className='col-md-6 col-12'>
                         <Button type='button' 
                             onClick={ gererAnnulation} 
-                            className="btn btn-warning px-4  py-2 w-50 ">
+                            className="btn btn-warning px-4  m-1 py-2 w-50 ">
                                 Annuler
                         </Button>
                     </div>

@@ -198,6 +198,7 @@ const Formulaire = forwardRef(({ onSave, onCancel, fullData }, ref) => {
                     <div className='col-md-6 col-12'>
                         <Button type='button' 
                             onClick={ gererAnnulation} 
+                            disabled={isFormEmpty}
                             className="btn btn-warning px-4  m-1 py-2 w-50 ">
                                 Annuler
                         </Button>
@@ -217,6 +218,7 @@ const Formulaire = forwardRef(({ onSave, onCancel, fullData }, ref) => {
                         <div className='col-md-6  col-12'>
                             <Button 
                                 type='button'
+                                disabled={isFormEmpty}
                                 onClick={() => setFormData({ nomResponsable: '', commune: '', telephone: '', nombrePersonnes: '', adresse: ''})}
                                 className="btn btn-secondary px-4 py-2  m-1 w-50">
                                 Réinitialiser

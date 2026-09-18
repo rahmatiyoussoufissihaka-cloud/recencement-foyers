@@ -12,7 +12,7 @@ export function Liste({items, onClickEdit, onClickDelete}){
   const communes = [...new Set(
     items.map((item) => item.commune)
   )];
-         console.log(onClickEdit)
+         
   //Consulter un foyer
   const handleView = (item) => {
     setFoyerSelectionne(item);
@@ -112,96 +112,93 @@ export function Liste({items, onClickEdit, onClickDelete}){
            <tbody>
              {foyersFiltresEtTries.length === 0 ? (
            <tr>
-             <td colSpan="5" className="text-center py-4">
-               Aucun foyer trouvé.
-             </td>
-           </tr>):(
-         foyersFiltresEtTries.map((item, index) => (
-               <tr key={item.id}>
-                 <td>{index + 1}</td>
-                 <td className='align-item-center'>{item.nomResponsable}</td>
-                 <td>{item.commune}</td>
-                 <td>{item.nombrePersonnes}</td>
-                 <td>
+              <td colSpan="5" className="text-center py-4">
+                Aucun foyer trouvé.
+              </td>
+            </tr>):(
+            foyersFiltresEtTries.map((item, index) => (
+              <tr key={item.id}>
+                <td>{index + 1}</td>
+                <td className='align-item-center'>{item.nomResponsable}</td>
+                <td>{item.commune}</td>
+                <td>{item.nombrePersonnes}</td>
+                <td>
                    <Button 
-                      type='button' 
-                      onClick={() => onClickEdit(item)}
+                        type='button' 
+                        onClick={() => onClickEdit(item)}
                         className="btn btn-primary m-1" >
                         Modifier
                      </Button>
-                   <Button 
-                   type='button'
-                    onClick={()=> onClickDelete(item.id)}
-                     className="btn btn-danger m-1">
-                    Supprimer
-                    </Button>
-                     <Button 
-                     type='button'
+                    <Button 
+                      type='button'
+                      onClick={()=> onClickDelete(item.id)}
+                      className="btn btn-danger m-1">
+                      Supprimer
+                  </Button>
+                  <Button 
+                      type='button'
                       onClick={() => handleView(item)} 
                       className="btn btn-info m-1" >
                       Consulter
-                      </Button>
-                 </td>
-               </tr>
-             ))
-           )}
-           </tbody>
-         </table>
-         </div>
-         {foyerSelectionne && (
-           <div
-             className="modal fade show d-block"  style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
-             tabIndex="-1"
-             role="dialog"
-           >
-             <div className="modal-dialog modal-dialog-centered">
-               <div className="modal-content">
-               <div className="modal-header bg-info">
-                   <h5 className="modal-title">
-                     Informations du foyer
-                   </h5>
-                   <Button
-                     className="btn-close"
-                     onClick={() => setFoyerSelectionne(null)}>
-                     </Button>
-                 </div>
-                 <div className="modal-body bg-light">
-                   <p>
-                     <strong>Responsable :</strong>{" "}
-                     {foyerSelectionne.nomResponsable}
-                   </p>
-                   <p>
-                     <strong>Adresse :</strong>{" "}
-                     {foyerSelectionne.adresse}
-                   </p>
-                   <p>
-                     <strong>Commune :</strong>{" "}
-                     {foyerSelectionne.commune}
-                   </p>
-                   <p>
-                     <strong>Nombre de personnes :</strong>{" "}
-                     {foyerSelectionne.nombrePersonnes}
-                   </p>
-                   <p>
-                     <strong>Téléphone :</strong>{" "}
-                     {foyerSelectionne.telephone}
-                   </p>
-                 </div>
-                 <div className="modal-footer">
-                   <Button
-                   type='button'
-                   className="btn btn-danger "
-                     onClick={() => setFoyerSelectionne(null)}
-                   >
-                   Fermer
-                   </Button>
-                 </div>
-               </div>
-             </div> 
-           </div>
-         )}
-   </div>
-        
-    )
+                  </Button>
+                </td>
+              </tr>
+            ))
+          )}
+        </tbody>
+      </table>
+    </div>
+    {foyerSelectionne && (
+      <div
+        className="modal fade show d-block"  style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+        tabIndex="-1"
+        role="dialog">
+        <div className="modal-dialog modal-dialog-centered">
+          <div className="modal-content">
+            <div className="modal-header bg-info">
+              <h5 className="modal-title">
+                Informations du foyer
+              </h5>
+              <Button
+                className="btn-close"
+                onClick={() => setFoyerSelectionne(null)}>
+              </Button>
+            </div>
+            <div className="modal-body bg-light">
+              <p>
+                <strong>Responsable :</strong>{" "}
+                {foyerSelectionne.nomResponsable}
+              </p>
+              <p>
+                <strong>Adresse :</strong>{" "}
+                {foyerSelectionne.adresse}
+              </p>
+              <p>
+                <strong>Commune :</strong>{" "}
+                {foyerSelectionne.commune}
+              </p>
+              <p>
+                <strong>Nombre de personnes :</strong>{" "}
+                {foyerSelectionne.nombrePersonnes}
+              </p>
+              <p>
+                <strong>Téléphone :</strong>{" "}
+                {foyerSelectionne.telephone}
+              </p>
+            </div>
+            <div className="modal-footer">
+              <Button
+                type='button'
+                className="btn btn-danger "
+                onClick={() => setFoyerSelectionne(null)}>
+                Fermer
+              </Button>
+            </div>
+          </div>
+        </div> 
+      </div>
+    )}
+   </div>    
+  )
 
 }

@@ -1,3 +1,4 @@
+import { useId, forwardRef } from "react"
 
 /**
  * @param {string} value
@@ -8,9 +9,9 @@
  * 
  * @param {(event)=>void} onChange
  */
-import { useId } from "react"
 
-export function Input({label, value, onChange, placeholder, required = false, type }) {
+
+export const Input=forwardRef (function Input({label, value, onChange, placeholder, required = false, type,onKeyDown }, ref) {
     const id= useId()
     return <div className="align-items-center mx-2">
         <label htmlFor={id}
@@ -22,17 +23,19 @@ export function Input({label, value, onChange, placeholder, required = false, ty
         </label>
         <div>
             <input id={id} 
+            ref={ref}
             type={type}
              placeholder={placeholder}
              className="form-control border-2 shadow-sm m-1 " 
               value={value}
                onChange={(e)=>onChange(e.target.value)}  
+               onKeyDown={onKeyDown}
                required={required} />
       
         </div>
         
     </div>
-}
+})
 
 
 

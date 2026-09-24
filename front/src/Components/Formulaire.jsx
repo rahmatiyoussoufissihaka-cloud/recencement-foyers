@@ -2,7 +2,7 @@ import {  useState, useEffect, useRef, forwardRef, useImperativeHandle} from "re
 import { Input } from "../Components/Forms/Input";
 import { Button } from "../Components/Forms/Button";
 
-const Formulaire = forwardRef(({ onSave, onCancel, fullData }, ref) => {  
+const Formulaire = forwardRef(({ onSave, fullData, show, setShow }, ref) => {  
     const [formData, setFormData] = useState({
         nomResponsable: '',
         adresse: '',
@@ -10,19 +10,18 @@ const Formulaire = forwardRef(({ onSave, onCancel, fullData }, ref) => {
         nombrePersonnes: '',
         telephone: ''
     })
-  
-    useEffect(() => {
-        if (fullData) {
-        setFormData({ nomResponsable: fullData.nomResponsable, adresse: fullData.adresse, commune: fullData.commune, nombrePersonnes:fullData.nombrePersonnes, telephone: fullData.telephone });
-        } else {
-        setFormData({  nomResponsable: '',
-        adresse: '',
-        commune: '',
-        nombrePersonnes: '',
-        telephone: '' });
-        }
-    }, [fullData]); 
-    
+     useEffect(() => {
+    if (fullData) {
+        setFormData({
+            nomResponsable: fullData.nomResponsable,
+            adresse: fullData.adresse,
+            commune: fullData.commune,
+            nombrePersonnes: fullData.nombrePersonnes,
+            telephone: fullData.telephone
+        });
+    }
+}, [fullData]);
+
     const nomRef = useRef(null);
     const adresseRef = useRef(null);
     const communeRef = useRef(null);
@@ -90,14 +89,6 @@ const Formulaire = forwardRef(({ onSave, onCancel, fullData }, ref) => {
         // Message de confirmation apres ajout
         alert("✅ Foyer enregistré avec succès !")        
     };
-   // gérer l'annulation
-    const gererAnnulation = () => {
-        // On remet le formulaire à blanc localement
-        setFormData({ nomResponsable: '', adresse: '', commune: '', nombrePersonnes: '', telephone: '' });       
-        // On prévient le parent pour quitter le mode édition
-        onCancel(); 
-    };
-
    // verifier si le formulaire est vide
    const isFormEmpty = !formData.nomResponsable && 
         !formData.adresse && 
@@ -107,128 +98,118 @@ const Formulaire = forwardRef(({ onSave, onCancel, fullData }, ref) => {
 
   return (
     <div>
-        <h2 className='mb-3 p-2 fw-bold'> Formulaire à remplir </h2>
-        <div className="d-flex align-items-center my-4">
-            <hr className="flex-grow-1" />
-            {editingId?(<span className="mx-3 fw-bold">
-                Modifier le foyer
-               </span>):(<span className="mx-3 fw-bold">
-                  Ajouter un foyer
-               </span>
-               )
-            }
-            <hr className="flex-grow-1" />
+        <Button type="button" className="btn btn-primary" onClick={setShow} >
+            Ajouter un foyer
+        </Button>
+        {show &&
+        <div className="modal fade show d-block " style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}>
+            <div className="modal-dialog">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        {editingId? (<h5 className="fw-bold">Modifier un foyer</h5>):(<h5 className="fw-bold">Ajouter un foyer</h5>) }
+                        <Button type="button" className="btn-close" onClick={()=>setShow(null)} ></Button>
+                    </div>
+                    <div className="modal-body">
+                        <form onSubmit={handleSubmit} 
+                        className="bg-white rounded shadow-sm border-1 border py-3 m-2 row">
+                        <div>
+                            <Input
+                            ref={nomRef}
+                            id="nomResponsable"  
+                            onChange={(value) => handleChange({ name: "nomResponsable", value })} 
+                            type="text"
+                            label="Nom du responsable" 
+                            name="nomResponsable" 
+                            value={formData.nomResponsable} 
+                            onKeyDown={(e) => handleEnter(e, adresseRef)}
+                            required={true}  />
+                        </div>
+                        <div className='col-md-6'>
+                            <Input 
+                                ref={adresseRef}
+                                id="adresse"
+                                type="text"
+                                label="Adresse" 
+                                name="adresse"
+                                value={formData.adresse} 
+                                onChange={(value) => handleChange({ name: "adresse", value})} 
+                                onKeyDown={(e) => handleEnter(e, communeRef)}
+                                required={true} 
+                            />
+                        </div>
+                        <div className='col-md-6'>
+                            <Input 
+                                ref={communeRef}
+                                id="commune"
+                                type="text"
+                                label="Commune" 
+                                name="commune"
+                                value={formData.commune}
+                                onChange={(value) => handleChange({ name: "commune", value})}
+                                onKeyDown={(e) => handleEnter(e, nombreRef)} 
+                                required={true} 
+                            />
+                        </div>
+                        <div className='col-md-6'>
+                            <Input
+                                ref={nombreRef}
+                                id="nombrePersonnes"
+                                label="Nombre de personnes"
+                                type="number"
+                                min="1"
+                                step="1"
+                                name="nombrePersonnes" 
+                                value={formData.nombrePersonnes}
+                                onChange={(value) => handleChange({ name: "nombrePersonnes", value})} 
+                                onKeyDown={(e) => handleEnter(e, telephoneRef)}
+                                required={true} 
+                            />
+                        </div>
+                        <div className='col-md-6 '>
+                            <Input
+                                ref={telephoneRef}
+                                id= "telephone"
+                                label="Numero de Téléphone" 
+                                type="tel" 
+                                name="telephone" 
+                                value={formData.telephone}
+                                placeholder="Ex: +269 321 45 67"
+                                onChange={(value) => handleChange({ name: "telephone", value})}
+                                onKeyDown={(e) => handleEnter(e, null)} />
+                        </div>
+                        {editingId?(
+                            <div className=" mt-2 ">
+                                <Button type="submit"
+                                    disabled={isFormEmpty}
+                                    className="btn btn-success px-4  m-1 py-2 w-100"> 
+                                    Mettre à jour
+                                </Button>
+                            </div>):
+                            (<div className="mt-2 ">
+                                    <Button
+                                        type ="submit"
+                                        disabled={isFormEmpty} 
+                                        className="btn btn-primary px-4  py-2 m-1 w-100">
+                                        Ajouter
+                                    </Button>              
+                            </div>)
+                        }
+                    </form>
+                    <div className="modal-footer">
+                        <Button 
+                            type='button'
+                            onClick={() => setShow(null)}
+                            className="btn btn-danger">
+                                Fermer
+                        </Button>
+
+                    </div>
+              </div>
+            </div>
+
         </div>
-        <form onSubmit={handleSubmit} 
-           className="bg-white rounded shadow-sm border-1 border py-3 m-2 row">
-          <div>
-                <Input
-                ref={nomRef}
-                id="nomResponsable"  
-                onChange={(value) => handleChange({ name: "nomResponsable", value })} 
-                type="text"
-                label="Nom du responsable" 
-                name="nomResponsable" 
-                value={formData.nomResponsable} 
-                 onKeyDown={(e) => handleEnter(e, adresseRef)}
-                required={true}  />
-           </div>
-           <div className='col-md-6'>
-                <Input 
-                    ref={adresseRef}
-                    id="adresse"
-                    type="text"
-                    label="Adresse" 
-                    name="adresse"
-                    value={formData.adresse} 
-                    onChange={(value) => handleChange({ name: "adresse", value})} 
-                    onKeyDown={(e) => handleEnter(e, communeRef)}
-                    required={true} 
-                />
-            </div>
-            <div className='col-md-6'>
-                <Input 
-                    ref={communeRef}
-                    id="commune"
-                    type="text"
-                    label="Commune" 
-                    name="commune"
-                    value={formData.commune}
-                    onChange={(value) => handleChange({ name: "commune", value})}
-                    onKeyDown={(e) => handleEnter(e, nombreRef)} 
-                    required={true} 
-                />
-            </div>
-            <div className='col-md-6'>
-                <Input
-                    ref={nombreRef}
-                    id="nombrePersonnes"
-                    label="Nombre de personnes"
-                    type="number"
-                    min="1"
-                    step="1"
-                    name="nombrePersonnes" 
-                    value={formData.nombrePersonnes}
-                    onChange={(value) => handleChange({ name: "nombrePersonnes", value})} 
-                    onKeyDown={(e) => handleEnter(e, telephoneRef)}
-                    required={true} 
-                />
-            </div>
-            <div className='col-md-6 '>
-                <Input
-                    ref={telephoneRef}
-                    id= "telephone"
-                    label="Numero de Téléphone" 
-                    type="tel" 
-                    name="telephone" 
-                    value={formData.telephone}
-                    placeholder="Ex: +269 321 45 67"
-                    onChange={(value) => handleChange({ name: "telephone", value})}
-                    onKeyDown={(e) => handleEnter(e, null)} />
-            </div>
-            {editingId?(
-                <div className="row mt-2 ">
-                    <div className='col-md-6 col-12'>
-                        <Button type="submit"
-                            disabled={isFormEmpty}
-                            className="btn btn-success px-4  m-1 py-2 w-100"> 
-                            Mettre à jour
-                        </Button>
-                    </div>
-                    <div className='col-md-6 col-12'>
-                        <Button type='button' 
-                            onClick={ gererAnnulation} 
-                            disabled={isFormEmpty}
-                            className="btn btn-warning px-4  m-1 py-2 w-50 ">
-                                Annuler
-                        </Button>
-                    </div>
-                </div>
-                ):
-                (
-                   <div className="row mt-2 ">
-                    <div className='col-md-6 col-12'>
-                            <Button
-                                type ="submit"
-                                disabled={isFormEmpty} 
-                                className="btn btn-primary px-4  py-2 m-1 w-100">
-                                Ajouter
-                            </Button>
-                        </div>
-                        <div className='col-md-6  col-12'>
-                            <Button 
-                                type='button'
-                                disabled={isFormEmpty}
-                                onClick={() => setFormData({ nomResponsable: '', commune: '', telephone: '', nombrePersonnes: '', adresse: ''})}
-                                className="btn btn-secondary px-4 py-2  m-1 w-50">
-                                Réinitialiser
-                            </Button>
-                        </div>
-                        
-                    </div>)
-                }
-            </form>
-       </div>
+     </div>}
+    </div>
    );
 });
 

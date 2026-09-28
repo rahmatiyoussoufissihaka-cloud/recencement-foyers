@@ -106,8 +106,16 @@ const Formulaire = forwardRef(({ onSave, fullData, show, setShow, onCancel }, re
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        {editingId? (<h5 className="fw-bold">Modifier un foyer</h5>):(<h5 className="fw-bold">Ajouter un foyer</h5>) }
-                        <Button type="button" className="btn-close" onClick={()=>setShow(null)} ></Button>
+                        {editingId? (
+                            <>
+                                <h5 className="fw-bold">Modifier un foyer</h5>
+                                <Button type="button" className="btn-close" onClick={onCancel} ></Button>
+                            </>)
+                            :(<>
+                                <h5 className="fw-bold">Ajouter un foyer</h5>
+                                <Button type="button" className="btn-close" onClick={()=>setShow(null)} ></Button>
+                            </>)
+                        }
                     </div>
                     <div className="modal-body">
                         <form onSubmit={handleSubmit} 

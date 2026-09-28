@@ -2,7 +2,7 @@ import {  useState, useEffect, useRef, forwardRef, useImperativeHandle} from "re
 import { Input } from "../Components/Forms/Input";
 import { Button } from "../Components/Forms/Button";
 
-const Formulaire = forwardRef(({ onSave, fullData, show, setShow }, ref) => {  
+const Formulaire = forwardRef(({ onSave, fullData, show, setShow, onCancel }, ref) => {  
     const [formData, setFormData] = useState({
         nomResponsable: '',
         adresse: '',
@@ -196,13 +196,21 @@ const Formulaire = forwardRef(({ onSave, fullData, show, setShow }, ref) => {
                         }
                     </form>
                     <div className="modal-footer">
-                        <Button 
+                       {editingId?
+                       ( <Button 
+                            type='button'
+                            onClick={onCancel}
+                            className="btn btn-secondary">
+                                Annuler
+                        </Button>
+                         ):
+                       ( <Button 
                             type='button'
                             onClick={() => setShow(null)}
                             className="btn btn-danger">
                                 Fermer
-                        </Button>
-
+                        </Button>)   
+                    }
                     </div>
               </div>
             </div>

@@ -31,7 +31,7 @@ function App() {
       // Message de confirmation apres supression
       alert("✅ Élément supprimé avec succès !")
     };
-    
+
     //Modifier un foyer
     const handleEdit = (item) => {
     setEditingId(item);
@@ -57,6 +57,7 @@ function App() {
         <Formulaire onSave={handleSave} 
         show={show}
         setShow={setShow}
+        onCancel={()=>setEditingId(null)}
         key={editingId ? editingId.id : 'mode-ajout'} fullData={editingId} />
         <Liste  items={items}  onClickEdit={handleEdit} onClickDelete={handleDelete}   />
       

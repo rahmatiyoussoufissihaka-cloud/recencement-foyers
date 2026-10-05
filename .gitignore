@@ -5,3 +5,4 @@ front/node_modules/
 front/dist/
 front/.env
 api/.phpunit.cache/
+api/var/

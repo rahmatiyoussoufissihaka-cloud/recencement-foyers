@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-require_once dirname(__DIR__) . '/src/InMemoryFoyerGateway.php';
+require_once dirname(__DIR__) . '/src/InFileFoyerGateway.php';
 
-use App\InMemoryFoyerGateway;
+use App\InFileFoyerGateway;
 
 const ALLOWED_METHODS = 'GET, POST, PUT, PATCH, DELETE, OPTIONS';
 
@@ -21,14 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
     exit;
 }
 
-session_start();
-
-if (!isset($_SESSION['foyers'])) {
-    $_SESSION['foyers'] = [];
-    $_SESSION['nextFoyerId'] = 1;
-}
-
-$gateway = new InMemoryFoyerGateway($_SESSION['foyers'], $_SESSION['nextFoyerId']);
+$gateway = new InFileFoyerGateway(dirname(__DIR__) . '/var/foyers.json');
 $method = $_SERVER['REQUEST_METHOD'];
 $path = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?: '/';
 

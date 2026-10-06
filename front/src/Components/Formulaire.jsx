@@ -1,32 +1,92 @@
 import {  useState, useEffect, useRef, forwardRef, useImperativeHandle} from "react"
 import { Input } from "../Components/Forms/Input";
 import { Button } from "../Components/Forms/Button";
+import { foyerService } from '../services/foyerService'
 
 const Formulaire = forwardRef(({ onSave, fullData, show, setShow, onCancel }, ref) => {  
+    const [enCours, setEnCours] = useState(false);
+    const [message, setMessage] = useState('');
+    const [isError, setIsError] = useState(true);
     const [formData, setFormData] = useState({
         nomResponsable: '',
         adresse: '',
         commune: '',
         nombrePersonnes: '',
         telephone: ''
-    })
-     useEffect(() => {
-    if (fullData) {
-        setFormData({
-            nomResponsable: fullData.nomResponsable,
-            adresse: fullData.adresse,
-            commune: fullData.commune,
-            nombrePersonnes: fullData.nombrePersonnes,
-            telephone: fullData.telephone
-        });
-    }
-}, [fullData]);
-
+    }) 
     const nomRef = useRef(null);
     const adresseRef = useRef(null);
     const communeRef = useRef(null);
     const nombreRef = useRef(null);
     const telephoneRef = useRef(null);
+    const isEditing = Boolean(fullData);
+    useEffect(() => {
+        if (isEditing) {
+            setFormData({
+                nomResponsable: fullData.nomResponsable || '',
+                adresse: fullData.adresse || '',
+                commune: fullData.commune || '',
+                nombrePersonnes: fullData.nombrePersonnes || '',
+                telephone: fullData.telephone || ''
+            });
+        }
+        else{
+            setFormData({
+                nomResponsable:'',
+                adresse: '',
+                commune:'',
+                nombrePersonnes:'',
+                telephone:''
+            })
+        }
+         setMessage('');
+    }, [fullData, isEditing]);
+    
+    const gererSoumission = async (e) => {
+        e.preventDefault();
+        setEnCours(true);
+        setMessage('');
+        setIsError(false)
+       
+        // convertir le nombre de personnes en entier
+        const nombre= parseInt(formData.nombrePersonnes, 10);
+        if (isNaN(nombre) || nombre < 1) {
+            setIsError(true)
+            setMessage("⚠️ Erreur : Le nombre de personnes doit être un entier supérieur ou égal à 1.");
+            setEnCours(false);
+        return; 
+        }
+        const donneesAEnvoyer = {
+            ...formData,
+            nombrePersonnes: nombre
+        };
+        try {
+            let resultat;
+            
+            if (isEditing) {
+                // Mode Édition -> Appel PATCH (ou PUT)
+                resultat = await foyerService.updatePartiel(fullData.id, donneesAEnvoyer);
+                
+            } 
+            else {
+                // Mode Ajout -> Appel POST
+                resultat = await foyerService.create(donneesAEnvoyer);
+                setFormData({ nomResponsable: '', adresse: '', commune: '', nombrePersonnes: '', telephone:'' }); 
+                 
+            }
+            setIsError(false);
+            setMessage('');       
+            onSave(resultat, isEditing);
+        } 
+        catch (erreur) {
+            setIsError(true);
+            setMessage(`⚠️ Erreur : ${erreur.message}`);
+        } 
+        finally {
+            setEnCours(false);
+        }
+    };
+    
     //permetre a la touche entrée de passer au champ suivant
     const handleEnter = (event, nextRef) => {
         if (event.key === "Enter") {
@@ -47,8 +107,7 @@ const Formulaire = forwardRef(({ onSave, fullData, show, setShow, onCancel }, re
             }
         }
     }));
-    const editingId = fullData !== null;
-
+   
     const handleChange = ({ name, value }) => {
         setFormData((prev) => {
             return {
@@ -57,38 +116,7 @@ const Formulaire = forwardRef(({ onSave, fullData, show, setShow, onCancel }, re
             };
         });
     };
-
-     //Sauvegarder 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // Vérifier  si le numero de téléphone est valide
-        const phoneRegex = /^\+?[0-9\s-]+$/; 
-        if (formData.telephone && !phoneRegex.test(formData.telephone)) {
-        alert("⚠️ Le numéro de téléphone n'est pas valide.");
-        return;
-        }  
-        // convertir le nombre de personnes en entier
-        const nombre= parseInt(formData.nombrePersonnes, 10);
-
-        // Vérifier que c'est un entier supérieur ou égal à 1
-        if (isNaN(nombre) || nombre < 1) {
-        alert("⚠️ Le nombre de personnes doit être un entier supérieur ou égal à 1.");
-        return;
-        }
-        const donneesPropres = {
-        ...formData,
-        nombrePersonnes: nombre 
-        };
-        onSave(donneesPropres);
-        // vide le formulaire 
-        setFormData({ nomResponsable: '',
-            adresse: '', 
-            commune: '', 
-            nombrePersonnes: '', 
-            telephone: ''});
-        // Message de confirmation apres ajout
-        alert("✅ Foyer enregistré avec succès !")        
-    };
+          
    // verifier si le formulaire est vide
    const isFormEmpty = !formData.nomResponsable && 
         !formData.adresse && 
@@ -106,19 +134,19 @@ const Formulaire = forwardRef(({ onSave, fullData, show, setShow, onCancel }, re
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
-                        {editingId? (
+                        {isEditing? (
                             <>
-                                <h5 className="fw-bold">Modifier un foyer</h5>
+                                <h5 className="fw-bold"> 📝 Modifier un foyer</h5>
                                 <Button type="button" className="btn-close" onClick={onCancel} ></Button>
                             </>)
                             :(<>
-                                <h5 className="fw-bold">Ajouter un foyer</h5>
+                                <h5 className="fw-bold">➕ Ajouter un foyer</h5>
                                 <Button type="button" className="btn-close" onClick={()=>setShow(null)} ></Button>
                             </>)
                         }
                     </div>
                     <div className="modal-body">
-                        <form onSubmit={handleSubmit} 
+                        <form onSubmit={gererSoumission} 
                         className="bg-white rounded shadow-sm border-1 border py-3 m-2 row">
                         <div>
                             <Input
@@ -185,26 +213,29 @@ const Formulaire = forwardRef(({ onSave, fullData, show, setShow, onCancel }, re
                                 onChange={(value) => handleChange({ name: "telephone", value})}
                                 onKeyDown={(e) => handleEnter(e, null)} />
                         </div>
-                        {editingId?(
+                        {isEditing?(
                             <div className=" mt-2 ">
                                 <Button type="submit"
-                                    disabled={isFormEmpty}
+                                    disabled={isFormEmpty || enCours }
                                     className="btn btn-success px-4  m-1 py-2 w-100"> 
-                                    Mettre à jour
+                                    {enCours ? 'Enregistrement...' : 'Mettre à jour'}
+                                    
                                 </Button>
                             </div>):
                             (<div className="mt-2 ">
                                     <Button
                                         type ="submit"
-                                        disabled={isFormEmpty} 
+                                        disabled={isFormEmpty || enCours } 
                                         className="btn btn-primary px-4  py-2 m-1 w-100">
-                                        Ajouter
+                                      {enCours ? 'Enregistrement...' : "Ajouter"}
+                                        
                                     </Button>              
                             </div>)
                         }
+                        {message && <p className={isError && "  error "}>{message}</p>}
                     </form>
                     <div className="modal-footer">
-                       {editingId?
+                       {isEditing?
                        ( <Button 
                             type='button'
                             onClick={onCancel}

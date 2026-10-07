@@ -109,8 +109,8 @@ function App() {
       key={editingId ? editingId.id : 'mode-ajout'} fullData={editingId} />
       {chargement &&
         <div className='d-flex flex-column align-items-center gap-2 m-2'>
-          <div className="spinner"></div>
-          <p className='text-muted'>Chargement en cours...</p>
+          <div className="spinner-border text-light" role="status"></div>
+          <p className='visually-hidden'>Chargement en cours...</p>
         </div>}
       {erreur && <p className="alert alert-danger border-0 shadow" role="alert">⚠️ Erreur : {erreur}</p>}
       {!chargement && !erreur && (

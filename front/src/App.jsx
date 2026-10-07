@@ -97,7 +97,7 @@ function App() {
   return(
     <div className='container my-3'>
       {notice && (
-        <div className="notice-toast"> 
+        <div className="toast-notification alert alert-danger border-0 shadow" role="alert"> 
           ✅ {notice}
         </div>
       )}
@@ -107,8 +107,12 @@ function App() {
       setShow={setShow}
       onCancel={()=>setEditingId(null)}
       key={editingId ? editingId.id : 'mode-ajout'} fullData={editingId} />
-      {chargement && <p className="p-2 text-center fw-bold text-primary" >🔄 Chargement en cours... </p>}
-      {erreur && <p className="error">⚠️ Erreur : {erreur}</p>}
+      {chargement &&
+        <div className='d-flex flex-column align-items-center gap-2 m-2'>
+          <div className="spinner"></div>
+          <p className='text-muted'>Chargement en cours...</p>
+        </div>}
+      {erreur && <p className="alert alert-danger border-0 shadow" role="alert">⚠️ Erreur : {erreur}</p>}
       {!chargement && !erreur && (
         <Liste  items={items}  onClickEdit={handleEdit} onClickDelete={handleDelete}   />
       )}

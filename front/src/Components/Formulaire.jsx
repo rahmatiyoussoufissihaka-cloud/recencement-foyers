@@ -244,7 +244,7 @@ const Formulaire = forwardRef(({ onSave, fullData, show, setShow, onCancel }, re
                                     </div>             
                             </div>)
                         }
-                        {message && <p className={isError && "error"}>{message}</p>}
+                        {message && <p className={isError && "alert alert-danger border-0 shadow"}  role="alert">{message}</p>}
                     </form>
                     <div className="modal-footer">
                        {isEditing?

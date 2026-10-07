@@ -150,15 +150,16 @@ const Formulaire = forwardRef(({ onSave, fullData, show, setShow, onCancel }, re
                         className="bg-white rounded shadow-sm border-1 border py-3 m-2 row">
                         <div>
                             <Input
-                            ref={nomRef}
-                            id="nomResponsable"  
-                            onChange={(value) => handleChange({ name: "nomResponsable", value })} 
-                            type="text"
-                            label="Nom du responsable" 
-                            name="nomResponsable" 
-                            value={formData.nomResponsable} 
-                            onKeyDown={(e) => handleEnter(e, adresseRef)}
-                            required={true}  />
+                                ref={nomRef}
+                                id="nomResponsable"  
+                                onChange={(value) => handleChange({ name: "nomResponsable", value })} 
+                                type="text"
+                                label="Nom du responsable" 
+                                name="nomResponsable" 
+                                value={formData.nomResponsable} 
+                                onKeyDown={(e) => handleEnter(e, adresseRef)}
+                                required={true}  
+                            />
                         </div>
                         <div className='col-md-6'>
                             <Input 
@@ -211,7 +212,8 @@ const Formulaire = forwardRef(({ onSave, fullData, show, setShow, onCancel }, re
                                 value={formData.telephone}
                                 placeholder="Ex: +269 321 45 67"
                                 onChange={(value) => handleChange({ name: "telephone", value})}
-                                onKeyDown={(e) => handleEnter(e, null)} />
+                                onKeyDown={(e) => handleEnter(e, null)} 
+                            />
                         </div>
                         {isEditing?(
                             <div className=" mt-2 ">
@@ -222,17 +224,27 @@ const Formulaire = forwardRef(({ onSave, fullData, show, setShow, onCancel }, re
                                     
                                 </Button>
                             </div>):
-                            (<div className="mt-2 ">
-                                    <Button
-                                        type ="submit"
-                                        disabled={isFormEmpty || enCours } 
-                                        className="btn btn-primary px-4  py-2 m-1 w-100">
-                                      {enCours ? 'Enregistrement...' : "Ajouter"}
-                                        
-                                    </Button>              
+                            (<div className="mt-2 row">
+                                    <div className="col-12 col-md-6">
+                                        <Button
+                                            type ="submit"
+                                            disabled={isFormEmpty || enCours } 
+                                            className="btn btn-primary px-4  py-2 m-1 w-100">
+                                            {enCours ? 'Enregistrement...' : "Ajouter"}
+                                            
+                                        </Button> 
+                                    </div>
+                                    <div className="col-12 col-md-6">
+                                        <Button type="button" 
+                                            onClick={() =>setFormData({ nomResponsable: '', adresse:'', commune:'', nombrePersonnes:'', telephone:''})}
+                                            disabled={isFormEmpty || enCours } 
+                                            className="btn btn-secondary px-4 py-2 m-1 w-100">
+                                            Réinitialiser
+                                        </Button>
+                                    </div>             
                             </div>)
                         }
-                        {message && <p className={isError && "  error "}>{message}</p>}
+                        {message && <p className={isError && "error"}>{message}</p>}
                     </form>
                     <div className="modal-footer">
                        {isEditing?

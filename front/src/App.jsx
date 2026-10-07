@@ -91,18 +91,17 @@ function App() {
            alert(err.message);
         }
     }
+    notification('Foyer  supprimé avec succès !');
   };
   
   return(
     <div className='container my-3'>
-      <h1 className='mb-3 p-2 fw-bold'>Recensement des Foyers</h1>
-      <div>
-        
-      </div>
       {notice && (
-        <div className="alert alert-success alert-dismissible fade show" role="alert"> 
+        <div className="notice-toast"> 
           ✅ {notice}
-          </div>)}
+        </div>
+      )}
+      <h1 className='mb-3 p-2 fw-bold'>Recensement des Foyers</h1>
       <Formulaire onSave={handleSave} 
       show={show}
       setShow={setShow}

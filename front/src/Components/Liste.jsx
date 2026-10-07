@@ -20,7 +20,7 @@ export function Liste({items, onClickEdit, onClickDelete}){
   }
   // Nombre total des personnes recensées
   const totalPersonnes = items.reduce((total, item) =>
-   total + item.nombrePersonnes, 0);
+    total + item.nombrePersonnes, 0);
    // Filtrer et trier 
    const foyersFiltresEtTries = [...items]
   //Filtrer par commune

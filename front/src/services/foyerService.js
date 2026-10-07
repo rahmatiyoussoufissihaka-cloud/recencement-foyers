@@ -1,9 +1,12 @@
 const API_URL = 'http://localhost:8000/api/foyers';
  
+// Fonction pour simuler un delai d'attente(en ms)
+const wait = (ms) => new Promise(resolve => setTimeout(resolve, ms));
 
 export const foyerService = {
   // GET /api/foyers
   getAll: async () => {
+    await wait(2000); // Simuler un delai pour le chargement
     const reponse = await fetch(API_URL);
     console.log("Réponse brute de l'API :", reponse);
     
@@ -17,6 +20,7 @@ export const foyerService = {
 
   // POST /api/foyers
   create: async (donneesFoyer) => {
+    await wait(2000); // Simuler un delai pour le chargement
     const reponse = await fetch(API_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -40,6 +44,7 @@ export const foyerService = {
 
   // PATCH /api/foyers/{id}
   updatePartiel: async (id, champsModifies) => {
+    await wait(2000); // Simuler un delai pour le chrgement
     const reponse = await fetch(`${API_URL}/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },

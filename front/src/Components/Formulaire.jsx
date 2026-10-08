@@ -55,7 +55,7 @@ const Formulaire = forwardRef(({ onSave, fullData, show, setShow, onCancel }, re
    //Effacer le message d'erreur si les champs sont vides
     useEffect(() => {
         // Récupère les valeurs de l'objet et vérifier s'elles sont vides
-        const isAllEmpty= Object.values(formData). every(value=>value.trim()==='');          
+        const isAllEmpty= Object.values(formData).every(value=>value.trim()==='');          
         if (isAllEmpty) {
             setMessage('');
             setIsError(false);

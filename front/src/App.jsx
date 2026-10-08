@@ -42,17 +42,19 @@ function App() {
   
     //Modifier un foyer (PATCH /api/foyers/{id})
     const handleEdit= (item) => {
-    setEditingId(item);
-    setShow(true);
-};
+      setEditingId(item);
+      //Ouvrir le formulaire en mode édition
+      setShow(true);
+  };
+    //Notification de succès
     const notification = (message) => {
-    setNotice(message);
-    
-    // On force un rafraîchissement propre du compte à rebours
-    const minuteur = setTimeout(() => {
-      setNotice('');
-    }, 3000);
-     return () => clearTimeout(minuteur)
+      setNotice(message);
+      
+      // Masquer la notification après 3 secondes
+      const minuteur = setTimeout(() => {
+        setNotice('');
+      }, 3000);
+      return () => clearTimeout(minuteur);
   }
 
    //Sauvegarder un foyer (POST ou PATCH)
@@ -68,6 +70,7 @@ function App() {
           // Met à jour la ligne modifiée
           setItems(items.map(item => item.id === foyerPropre.id ? foyerPropre : item));
           setEditingId(null); 
+          // Affiche une notification de succès
           notification('Foyer modifié avec succès !');
           
         } else {
@@ -76,7 +79,7 @@ function App() {
           notification('Foyer  ajouté avec succès !');
           
       };
-    
+       // fermer le formulaire après l'enregistrement
       setShow(false); 
   };
   //Supprimer un foyer(DELETE /api/foyers/{id})
@@ -97,8 +100,11 @@ function App() {
   return(
     <div className='container my-3'>
       {notice && (
-        <div className="toast-notification alert alert-danger border-0 shadow" role="alert"> 
-          ✅ {notice}
+        <div className="toast-notification alert d-flex alert-success border-0 shadow" role="alert"> 
+           <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" className="bi bi-check-circle-fill flex-shrink-0 me-2" width="24" height="24" role="img" viewBox="0 0 16 16">
+              <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
+           </svg> 
+          <div>{notice}</div>
         </div>
       )}
       <h1 className='mb-3 p-2 fw-bold'>Recensement des Foyers</h1>
@@ -112,7 +118,12 @@ function App() {
           <div className="spinner-border text-light" role="status"></div>
           <p className='visually-hidden'>Chargement en cours...</p>
         </div>}
-      {erreur && <p className="alert alert-danger border-0 shadow" role="alert">⚠️ Erreur : {erreur}</p>}
+      {erreur && <div className="alert d-flex alert-danger border-0 shadow" role="alert">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" className="bi bi-exclamation-triangle-fill flex-shrink-0 me-2" viewBox="0 0 16 16" role="img" aria-label="Warning:">
+            <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
+          </svg>
+        <div> Erreur : {erreur}</div>
+      </div>}
       {!chargement && !erreur && (
         <Liste  items={items}  onClickEdit={handleEdit} onClickDelete={handleDelete}   />
       )}

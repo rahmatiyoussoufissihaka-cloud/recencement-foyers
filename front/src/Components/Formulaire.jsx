@@ -189,6 +189,7 @@ const Formulaire = forwardRef(({ onSave, fullData, show, setShow, onCancel }, re
                                 name="nomResponsable" 
                                 value={formData.nomResponsable} 
                                 onKeyDown={(e) => handleEnter(e, adresseRef)}
+                                disabled={enCours}
                                 required  
                             />
                         </div>
@@ -202,6 +203,7 @@ const Formulaire = forwardRef(({ onSave, fullData, show, setShow, onCancel }, re
                                 value={formData.adresse} 
                                 onChange={(value) => handleChange({ name: "adresse", value})} 
                                 onKeyDown={(e) => handleEnter(e, communeRef)}
+                                disabled={enCours}
                                 required
                             />
                         </div>
@@ -215,6 +217,7 @@ const Formulaire = forwardRef(({ onSave, fullData, show, setShow, onCancel }, re
                                 value={formData.commune}
                                 onChange={(value) => handleChange({ name: "commune", value})}
                                 onKeyDown={(e) => handleEnter(e, nombreRef)} 
+                                disabled={enCours}
                                 required
                             />
                         </div>
@@ -230,6 +233,7 @@ const Formulaire = forwardRef(({ onSave, fullData, show, setShow, onCancel }, re
                                 value={formData.nombrePersonnes}
                                 onChange={(value) => handleChange({ name: "nombrePersonnes", value})} 
                                 onKeyDown={(e) => handleEnter(e, telephoneRef)}
+                                disabled={enCours}
                                 required
                             />
                         </div>
@@ -244,6 +248,7 @@ const Formulaire = forwardRef(({ onSave, fullData, show, setShow, onCancel }, re
                                 placeholder="Ex: +269 321 45 67"
                                 onChange={(value) => handleChange({ name: "telephone", value})}
                                 onKeyDown={(e) => handleEnter(e, null)} 
+                                disabled={enCours}
                             />
                         </div>
                         {isEditing?(

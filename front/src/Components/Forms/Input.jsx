@@ -11,7 +11,7 @@ import { useId, forwardRef } from "react"
  */
 
 
-export const Input=forwardRef (function Input({label, value, onChange, placeholder, required = false, type,onKeyDown }, ref) {
+export const Input=forwardRef (function Input({label, value, onChange, placeholder, required = false, type, onKeyDown, disabled }, ref) {
     const id= useId()
     return <div className="align-items-center mx-2">
         <label htmlFor={id}
@@ -30,7 +30,8 @@ export const Input=forwardRef (function Input({label, value, onChange, placehold
               value={value}
                onChange={(e)=>onChange(e.target.value)}  
                onKeyDown={onKeyDown}
-               required={required} />
+               required={required}
+               disabled={disabled} />
       
         </div>
         

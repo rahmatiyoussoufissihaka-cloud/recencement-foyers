@@ -8,7 +8,7 @@ import { foyerService } from './services/foyerService';
 function App() {
   const [editingId, setEditingId]=useState(null)
   //Etat pour stocker les valeurs des items
-  const [items, setItems] =useState([])
+  const [foyers, setFoyers] =useState([])
   const [chargement, setChargement] = useState(true);
   const [erreur, setErreur] = useState(null);
   const [notice, setNotice ] = useState('');
@@ -30,7 +30,7 @@ function App() {
       setChargement(true);
       setErreur(null);
       const donnees = await foyerService.getAll(); 
-      setItems(donnees);
+      setFoyers(donnees);
     } 
     catch (err) {
       setErreur(err.message); 
@@ -41,8 +41,8 @@ function App() {
   };
   
     //Modifier un foyer (PATCH /api/foyers/{id})
-    const handleEdit= (item) => {
-      setEditingId(item);
+    const handleEdit= (foyer) => {
+      setEditingId(foyer);
       //Ouvrir le formulaire en mode édition
       setShow(true);
   };
@@ -58,9 +58,9 @@ function App() {
   }
 
    //Sauvegarder un foyer (POST ou PATCH)
-   const handleSave = (itemResult, wasEditing) => {
-      console.log("Données reçues après enregistrement :", itemResult);
-      const foyerPropre = itemResult?.data ? itemResult.data : itemResult;
+   const handleSave = (foyerResult, wasEditing) => {
+      console.log("Données reçues après enregistrement :", foyerResult);
+      const foyerPropre = foyerResult?.data ? foyerResult.data :foyerResult;
       if (!foyerPropre || typeof foyerPropre !== 'object') {
           console.error("Le format renvoyé par l'API n'est pas un objet valide.");
           return;
@@ -68,14 +68,14 @@ function App() {
 
       if (wasEditing) {
           // Met à jour la ligne modifiée
-          setItems(items.map(item => item.id === foyerPropre.id ? foyerPropre : item));
+          setFoyers(foyers.map(foyer => foyer.id === foyerPropre.id ? foyerPropre : foyer));
           setEditingId(null); 
           // Affiche une notification de succès
           notification('Foyer modifié avec succès !');
           
         } else {
           // Ajoute le nouveau foyer à la liste
-          setItems([...items, foyerPropre]);
+          setFoyers([...foyers, foyerPropre]);
           notification('Foyer  ajouté avec succès !');
           
       };
@@ -84,24 +84,24 @@ function App() {
   };
   //Supprimer un foyer(DELETE /api/foyers/{id})
   const handleDelete = async (id) => {
-    if (window.confirm("Supprimer ce foyer ?")) {
+    if (window.confirm("Etes-vous sur de vouloir supprimer ce foyer ?")) {
         try {
             await foyerService.delete(id);
-            setItems(items.filter(item => item.id !== id));
+            setFoyers(foyers.filter(foyer => foyer.id !== id));
             if (editingId?.id === id) setEditingId(null);
         } 
         catch (err) {
            alert(err.message);
         }
     }
-    notification('Foyer  supprimé avec succès !');
+    notification('Foyer supprimé avec succès !');
   };
   
   return(
     <div className='container my-3'>
       {notice && (
         <div className="toast-notification alert d-flex alert-success border-0 shadow" role="alert"> 
-           <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" className="bi bi-check-circle-fill flex-shrink-0 me-2" width="24" height="24" role="img" viewBox="0 0 16 16">
+           <svg xmlns="http://www.w3.org/2000/svg"  fill="currentColor" className="bi bi-check-circle-fill flex-shrink-0" width="24" height="24" role="img" viewBox="0 0 16 16">
               <path d="M16 8A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-3.97-3.03a.75.75 0 0 0-1.08.022L7.477 9.417 5.384 7.323a.75.75 0 0 0-1.06 1.06L6.97 11.03a.75.75 0 0 0 1.079-.02l3.992-4.99a.75.75 0 0 0-.01-1.05z"/>
            </svg> 
           <div>{notice}</div>
@@ -125,7 +125,7 @@ function App() {
         <div> Erreur : {erreur}</div>
       </div>}
       {!chargement && !erreur && (
-        <Liste  items={items}  onClickEdit={handleEdit} onClickDelete={handleDelete}   />
+        <Liste  foyers={foyers}  onClickEdit={handleEdit} onClickDelete={handleDelete}   />
       )}
        
     </div>

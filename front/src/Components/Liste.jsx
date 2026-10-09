@@ -2,33 +2,33 @@ import { useState } from "react";
 import { Button } from "../Components/Forms/Button";
 
 
-export function Liste({items, onClickEdit, onClickDelete}){
+export function Liste({foyers, onClickEdit, onClickDelete}){
   //Etat du fitre
-  const [communeSelectionnee, setCommuneSelectionnee] = useState("")
+  const [communeSelected, setCommuneSelected] = useState("")
   //Etat du tri
   const [tri, setTri] = useState("");
   //Etat de consultation d'un foyer
-  const [foyerSelectionne, setFoyerSelectionne] = useState(null);
+  const [foyerSelected, setFoyerSelected] = useState(null);
   //Récupérer les communes automatiquement   
   const communes = [...new Set(
-    items.map((item) => item.commune)
+    foyers.map((foyer) => foyer.commune)
   )];
          
   //Consulter un foyer
-  const handleView = (item) => {
-    setFoyerSelectionne(item);
+  const handleView = (foyer) => {
+    setFoyerSelected(foyer);
   }
   // Nombre total des personnes recensées
-  const totalPersonnes = items.reduce((total, item) =>
-    total + item.nombrePersonnes, 0);
+  const totalPersonnes = foyers.reduce((total, foyer) =>
+    total + foyer.nombrePersonnes, 0);
    // Filtrer et trier 
-   const foyersFiltresEtTries = [...items]
+   const foyersFiltresEtTries = [...foyers]
   //Filtrer par commune
-  .filter((item) => {
-      if (communeSelectionnee === "") {
+  .filter((foyer) => {
+      if (communeSelected=== "") {
       return true;
     }
-   return item.commune === communeSelectionnee;
+   return foyer.commune === communeSelected;
   })
   // Trier par nom
     .sort((a, b) => {
@@ -56,7 +56,7 @@ export function Liste({items, onClickEdit, onClickDelete}){
      <div className='row '>
        <div className=' col-md-6 mt-3 mb-4'>
           <span className='fw-bold p-3 border border-1 rounded shadow-sm'>
-            Nombre de foyer(s): {items.length}
+            Nombre de foyer(s): {foyers.length}
           </span>
        </div>
        <div className='col-md-6 mt-3 mb-4'>
@@ -72,8 +72,8 @@ export function Liste({items, onClickEdit, onClickDelete}){
           </label>
           <select
             className="form-select"
-            value={communeSelectionnee}
-            onChange={(e) => setCommuneSelectionnee(e.target.value)}>
+            value={communeSelected}
+            onChange={(e) => setCommuneSelected(e.target.value)}>
             <option value="">Toutes les communes</option>
                 {communes.map((commune) => (
                   <option key={commune} value={commune}>
@@ -117,28 +117,28 @@ export function Liste({items, onClickEdit, onClickDelete}){
                 Aucun foyer trouvé.
               </td>
             </tr>):(
-            foyersFiltresEtTries.map((item, index) => (
-              <tr key={item.id}>
+            foyersFiltresEtTries.map((foyer, index) => (
+              <tr key={foyer.id}>
                 <td>{index + 1}</td>
-                <td className='align-item-center'>{item.nomResponsable}</td>
-                <td>{item.commune}</td>
-                <td>{item.nombrePersonnes}</td>
+                <td className='align-item-center'>{foyer.nomResponsable}</td>
+                <td>{foyer.commune}</td>
+                <td>{foyer.nombrePersonnes}</td>
                 <td>
                    <Button 
                         type='button' 
-                        onClick={() => onClickEdit(item)}
+                        onClick={() => onClickEdit(foyer)}
                         className="btn btn-primary m-1" >
                         Modifier
                      </Button>
                     <Button 
                       type='button'
-                      onClick={()=> onClickDelete(item.id)}
+                      onClick={()=> onClickDelete(foyer.id)}
                       className="btn btn-danger m-1">
                       Supprimer
                   </Button>
                   <Button 
                       type='button'
-                      onClick={() => handleView(item)} 
+                      onClick={() => handleView(foyer)} 
                       className="btn btn-info m-1" >
                       Consulter
                   </Button>
@@ -149,7 +149,7 @@ export function Liste({items, onClickEdit, onClickDelete}){
         </tbody>
       </table>
     </div>
-    {foyerSelectionne && (
+    {foyerSelected && (
       <div
         className="modal fade show d-block"  style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
         tabIndex="-1"
@@ -162,36 +162,36 @@ export function Liste({items, onClickEdit, onClickDelete}){
               </h5>
               <Button
                 className="btn-close"
-                onClick={() => setFoyerSelectionne(null)}>
+                onClick={() => setFoyerSelected(null)}>
               </Button>
             </div>
             <div className="modal-body bg-light">
               <p>
                 <strong>Responsable :</strong>{" "}
-                {foyerSelectionne.nomResponsable}
+                {foyerSelected.nomResponsable}
               </p>
               <p>
                 <strong>Adresse :</strong>{" "}
-                {foyerSelectionne.adresse}
+                {foyerSelected.adresse}
               </p>
               <p>
                 <strong>Commune :</strong>{" "}
-                {foyerSelectionne.commune}
+                {foyerSelected.commune}
               </p>
               <p>
                 <strong>Nombre de personnes :</strong>{" "}
-                {foyerSelectionne.nombrePersonnes}
+                {foyerSelected.nombrePersonnes}
               </p>
               <p>
                 <strong>Téléphone :</strong>{" "}
-                {foyerSelectionne.telephone}
+                {foyerSelected.telephone}
               </p>
             </div>
             <div className="modal-footer">
               <Button
                 type='button'
                 className="btn btn-danger "
-                onClick={() => setFoyerSelectionne(null)}>
+                onClick={() => setFoyerSelected(null)}>
                 Fermer
               </Button>
             </div>

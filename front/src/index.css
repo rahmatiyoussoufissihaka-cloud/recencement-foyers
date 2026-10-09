@@ -8,15 +8,16 @@
   --accent-bg: rgba(170, 59, 255, 0.1);
   --accent-border: rgba(170, 59, 255, 0.5);
   --social-bg: rgba(244, 243, 236, 0.5);
-  --shadow:
-    rgba(0, 0, 0, 0.1) 0 10px 15px -3px, rgba(0, 0, 0, 0.05) 0 4px 6px -2px;
-
+  --shadow: 3px 3px 0px rgba(0,0,0,0.2);
   --sans: system-ui, 'Segoe UI', Roboto, sans-serif;
   --heading: Arial, sans-serif;
   --mono: ui-monospace, Consolas, monospace;
   --titre: "Playfair Display", serif;
   --body: "Lora", serif;
-
+  --padding: 20px; 
+  --margin: 0;
+   --width:16px;
+   --max-width:100%;
   font: 18px/145% var(--sans);
   letter-spacing: 0.18px;
   color-scheme: light dark;
@@ -50,14 +51,14 @@
 }
 
 body {
-  margin: 0;
+  margin:var(--margin);
   font-family: var(--body)
 }
 
 #root {
   width: 1126px;
-  max-width: 100%;
-  margin: 0 auto;
+  max-width:var(--max-width);
+  margin:var(--margin) auto;
   text-align: center;
   border-inline: 1px solid var(--border);
   min-height: 100svh;
@@ -67,7 +68,6 @@ body {
 }
 
 h1,
-h2,
 h5 {
   font-family: var(--titre);
   font-weight: 500;
@@ -75,27 +75,19 @@ h5 {
 }
 
 h1 {
-    text-shadow: 3px 3px 0px rgba(0,0,0,0.2);
-    padding: 100px;
-    font-size: 56px;
+    text-shadow: var(--shadow);
+    padding: calc(var(--padding) * 5);
+    font-size: calc(var(--padding) * 2 + var(--width));
     letter-spacing: -1.68px;
-    margin: 32px 0;
+    margin: calc(var(--width) * 2)  var(--margin);
     @media (max-width: 1024px) {
-      font-size: 36px;
-      margin: 20px 0;
+      font-size: calc(var(--width) * 2 + 3px);
+      margin: var(--padding) var(--margin);
   }
 }
-h2 {
-  font-size: 24px;
-  line-height: 118%;
-  letter-spacing: -0.24px;
-  margin: 0 0 8px;
-  @media (max-width: 1024px) {
-    font-size: 20px;
-  }
-}
+
 p {
-  margin: 0;
+  margin: var(--margin);
 }
 
 button,
@@ -108,23 +100,27 @@ select{
 
 .toast-notification{
   position: fixed;
-  top: 20px;
-  left: 50%;
-  transform: translateX(-50%);
+  top: var(--padding);
+  left: calc(var(--max-width) / 2);
+  transform: translateX(calc(var(--max-width) / 2) * -1);
   z-index: 9999; 
   display: flex;
   align-items: center;
-  gap: 10px;
+  gap: calc(var(--padding) / 2);
   animation: fadeInToast .4s ease-out forwards;
+  @media(max-width:500px){
+    left:auto;
+    right:var(--padding);
+  }
 }
 @keyframes fadeInToast {
  0% {
-    opacity: 0;
-    transform: translateY(20px); 
+    opacity: var(--margin);
+    transform: translateY(var(--padding)); 
   }
   100% {
     opacity: 1;
-    transform: translateY(0);    
+    transform: translateY(var(--margin));    
   }
 }
 
